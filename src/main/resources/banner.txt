@@ -1,0 +1,14 @@
+${AnsiColor.BRIGHT_WHITE}=====================================================================
+${AnsiColor.CYAN}    ______
+${AnsiColor.YELLOW}   / ____/___ ___
+${AnsiColor.CYAN}  / __/ / __ `__ \
+${AnsiColor.YELLOW} / /___/ / / / / /
+${AnsiColor.CYAN}/_____/_/ /_/_/_/                                               __
+${AnsiColor.YELLOW}      /  |/  /___ _____  ____ _____ ____  ____ ___  ___  ____  / /_
+${AnsiColor.CYAN}     / /|_/ / __ `/ __ \/ __ `/ __ `/ _ \/ __ `__ \/ _ \/ __ \/ __/
+${AnsiColor.YELLOW}    / /  / / /_/ / / / / /_/ / /_/ /  __/ / / / / /  __/ / / / /_
+${AnsiColor.CYAN}   /_/  /_/\__,_/_/ /_/\__,_/\__, /\___/_/ /_/ /_/\___/_/ /_/\__/
+${AnsiColor.YELLOW}                            /____/
+${AnsiColor.CYAN}                Author: 7527
+${AnsiColor.YELLOW}                Version: 0.0.1-SNAPSHOT
+${AnsiColor.BRIGHT_WHITE}=====================================================================

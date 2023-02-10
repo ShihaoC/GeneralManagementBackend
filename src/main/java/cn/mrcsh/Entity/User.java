@@ -7,12 +7,34 @@ import lombok.Data;
 @Data
 @TableName("sys_user")
 public class User {
+    /**
+     * id
+     */
     @TableField(value = "id")
-    private Integer id;
+    private Integer id; // id
+    /**
+     * 用户名
+     */
     @TableField(value = "username")
-    private String username;
+    private String username; // 用户名
+    /**
+     * 密码
+     */
     @TableField(value = "password")
-    private String password;
+    private String password; // 密码
+    /**
+     * 角色
+     */
     @TableField(value = "role")
-    private String role;
+    private String role; // 角色
+    /**
+     * 部门
+     */
+    @TableField(value = "department")
+    private String department; // 部门
+    /**
+     * Token
+     */
+    @TableField(exist = false)
+    private String Token; // Token
 }
