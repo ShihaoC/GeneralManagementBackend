@@ -1,0 +1,8 @@
+server:
+  port: 8848
+spring:
+  datasource:
+    username: sys_em
+    password: dkeujgjgb!2^@dTt
+    url: jdbc:mysql://rm-2zeill7d837f111yi1o.mysql.rds.aliyuncs.com:3306/sys_em
+    driver-class-name: com.mysql.cj.jdbc.Driver
