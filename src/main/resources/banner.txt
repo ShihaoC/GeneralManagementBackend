@@ -9,6 +9,6 @@ ${AnsiColor.CYAN}     / /|_/ / __ `/ __ \/ __ `/ __ `/ _ \/ __ `__ \/ _ \/ __ \/
 ${AnsiColor.YELLOW}    / /  / / /_/ / / / / /_/ / /_/ /  __/ / / / / /  __/ / / / /_
 ${AnsiColor.CYAN}   /_/  /_/\__,_/_/ /_/\__,_/\__, /\___/_/ /_/ /_/\___/_/ /_/\__/
 ${AnsiColor.YELLOW}                            /____/
-${AnsiColor.CYAN}                Author: 7527
+${AnsiColor.CYAN}                Author: 7527 DevTeam
 ${AnsiColor.YELLOW}                Version: 0.0.1-SNAPSHOT
 ${AnsiColor.BRIGHT_WHITE}=====================================================================

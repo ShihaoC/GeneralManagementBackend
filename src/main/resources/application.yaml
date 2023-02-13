@@ -6,3 +6,6 @@ spring:
     password: dkeujgjgb!2^@dTt
     url: jdbc:mysql://rm-2zeill7d837f111yi1o.mysql.rds.aliyuncs.com:3306/sys_em
     driver-class-name: com.mysql.cj.jdbc.Driver
+logging:
+  file:
+    name: log/log.txt

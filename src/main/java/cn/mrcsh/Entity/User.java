@@ -1,6 +1,8 @@
 package cn.mrcsh.Entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
@@ -10,13 +12,18 @@ public class User {
     /**
      * id
      */
-    @TableField(value = "id")
+    @TableId(value = "id",type = IdType.AUTO)
     private Integer id; // id
     /**
      * 用户名
      */
     @TableField(value = "username")
     private String username; // 用户名
+    /**
+     * 昵称
+     */
+    @TableField(value = "nick_name")
+    private String nick_name;
     /**
      * 密码
      */

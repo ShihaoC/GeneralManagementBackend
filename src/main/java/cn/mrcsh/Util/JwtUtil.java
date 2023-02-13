@@ -3,17 +3,15 @@ package cn.mrcsh.Util;
 
 import cn.mrcsh.Enum.ROLE;
 import io.jsonwebtoken.*;
-import lombok.extern.slf4j.Slf4j;
 
 import java.util.Date;
 import java.util.UUID;
-@Slf4j
-public class JWTUtil {
+
+public class JwtUtil {
 
     private static final long Token_Timeout = 1000 * 60 * 60 * 24;
 
     public static String getToken(String username, ROLE role) {
-        log.info("123");
         JwtBuilder builder = Jwts.builder();
         String jwtToken = builder
                 .setHeaderParam("type", "jwt")
