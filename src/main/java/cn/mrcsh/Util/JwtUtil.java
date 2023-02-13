@@ -7,8 +7,9 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.util.Date;
 import java.util.UUID;
+
 @Slf4j
-public class JWTUtil {
+public class JwtUtil {
 
     private static final long Token_Timeout = 1000 * 60 * 60 * 24;
 

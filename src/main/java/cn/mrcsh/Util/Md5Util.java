@@ -3,8 +3,8 @@ package cn.mrcsh.Util;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.jetbrains.annotations.NotNull;
 
-public class MD5Util {
-    private MD5Util() {
+public class Md5Util {
+    private Md5Util() {
     }
 
     @NotNull
