@@ -57,8 +57,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     public Response<Object> update(Employee employee) {
         QueryWrapper<Employee> wrapper = new QueryWrapper<>();
         wrapper
-                .eq("id",employee.getId())
-                .eq("name", employee.getName());
+                .eq("id",employee.getId());
         int update;
         try {
             update = mapper.update(employee, wrapper);
