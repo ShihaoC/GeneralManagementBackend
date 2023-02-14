@@ -24,8 +24,8 @@ public class Employee {
     /**
      * 入职日期
      */
-    @TableField("join_data")
-    private Date join_data;
+    @TableField("join_date")
+    private Date join_date;
     /**
      * 岗位
      */

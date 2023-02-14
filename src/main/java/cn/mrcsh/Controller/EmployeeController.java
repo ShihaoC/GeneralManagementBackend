@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Date;
+import java.text.SimpleDateFormat;
 
 /**
  * 员工管理接口
@@ -24,7 +25,7 @@ public class EmployeeController {
      */
     @PostMapping(value = "/insert_employee")
     public Object insertEmployee(@RequestBody Employee employee){
-        employee.setJoin_data(new Date(System.currentTimeMillis()));
+        employee.setJoin_date(new Date(System.currentTimeMillis()));
         employee.setClockin(false);
         employee.setWork_num(0);
         employee.setQuit(false);

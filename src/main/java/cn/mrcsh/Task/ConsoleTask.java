@@ -14,14 +14,16 @@ public class ConsoleTask implements CommandLineRunner {
         log.info("123");
         new Thread(()->{
             Scanner input = new Scanner(System.in);
-            switch (input.nextLine()){
-                case "stop":
-                case "end":
-                case "quit":
-                    log.warn("服务器关闭中。。。");
-                    input.close();
-                    System.exit(0);
-                break;
+            while (true) {
+                switch (input.nextLine()) {
+                    case "stop":
+                    case "end":
+                    case "quit":
+                        log.warn("服务器关闭中。。。");
+                        input.close();
+                        System.exit(0);
+                        break;
+                }
             }
         }).start();
         log.info("234");

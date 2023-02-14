@@ -9,3 +9,8 @@ spring:
 logging:
   file:
     name: log/log.txt
+  level:
+    cn.mrcsh.Mapper: trace
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: false
