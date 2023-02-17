@@ -12,6 +12,8 @@ public interface DepartmentService {
 
     Response<Object> selectList(int page);
 
+    Response<Object> selectAll();
+
 
     Response<Object> selectLikeSomething(int page,String query);
 }

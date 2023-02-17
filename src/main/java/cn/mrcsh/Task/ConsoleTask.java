@@ -11,7 +11,6 @@ import java.util.Scanner;
 public class ConsoleTask implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
-        log.info("123");
         new Thread(()->{
             Scanner input = new Scanner(System.in);
             while (true) {
@@ -23,9 +22,11 @@ public class ConsoleTask implements CommandLineRunner {
                         input.close();
                         System.exit(0);
                         break;
+                    default:
+                        log.error("未知指令");
+                        break;
                 }
             }
         }).start();
-        log.info("234");
     }
 }

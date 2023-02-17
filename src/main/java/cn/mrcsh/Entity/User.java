@@ -5,7 +5,14 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
-
+/**
+ * <h3>用户实体类</h3>
+ * <hr/>
+ * 数据库: sys_user
+ * <br/>
+ * <br/>
+ * <br/>
+ */
 @Data
 @TableName("sys_user")
 public class User {

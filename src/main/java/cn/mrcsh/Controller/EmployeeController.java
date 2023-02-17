@@ -5,6 +5,7 @@ import cn.mrcsh.Service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
 import java.sql.Date;
 
 /**
@@ -20,7 +21,7 @@ public class EmployeeController {
     /**
      * 创建员工信息
      * @param employee 员工对象
-     * @return
+     * @return <?>
      */
     @PostMapping(value = "/insert_employee")
     public Object insertEmployee(@RequestBody Employee employee){
@@ -34,9 +35,9 @@ public class EmployeeController {
     /**
      * 查询所有员工信息
      * @param page 页数
-     * @return
+     * @return <?>
      */
-    @GetMapping(value = "select_all")
+    @GetMapping(value = "/select_all")
     public Object selectAll(int page){
         return service.selectList(page);
     }
@@ -45,9 +46,9 @@ public class EmployeeController {
      * 根据姓名模糊查询员工信息
      * @param query 员工姓名
      * @param page 页数
-     * @return
+     * @return <?>
      */
-    @GetMapping(value = "select_something")
+    @GetMapping(value = "/select_something")
     public Object selectSomething(String query,int page){
         return service.selectLikeSomething(page,query);
     }
@@ -56,9 +57,9 @@ public class EmployeeController {
      * 删除某个员工信息
      * @param id id
      * @param name 姓名
-     * @return
+     * @return <?>
      */
-    @GetMapping(value = "delete_employee")
+    @GetMapping(value = "/delete_employee")
     public Object delete(int id,String name){
         return service.delete(id, name);
     }
@@ -66,11 +67,15 @@ public class EmployeeController {
     /**
      * 修改员工信息
      * @param employee 员工对象
-     * @return
+     * @return <?>
      */
-    @PostMapping(value = "update_employee")
+    @PostMapping(value = "/update_employee")
     public Object update(@RequestBody Employee employee){
         return service.update(employee);
     }
 
+        @GetMapping(value = "/export_excel")
+    public void export(HttpServletResponse response){
+        service.export_Excel(response);
+    }
 }

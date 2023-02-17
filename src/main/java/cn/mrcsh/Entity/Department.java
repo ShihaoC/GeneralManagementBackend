@@ -5,7 +5,14 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
-
+/**
+ * <h3>岗位实体类</h3>
+ * <hr/>
+ * 数据库: sys_department
+ * <br/>
+ * <br/>
+ * <br/>
+ */
 @Data
 @TableName("sys_department")
 public class Department {

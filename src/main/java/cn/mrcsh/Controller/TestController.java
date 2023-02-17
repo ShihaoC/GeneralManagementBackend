@@ -10,10 +10,11 @@ import org.springframework.web.bind.annotation.RestController;
 /**
  * 测试接口（忽略）
  */
+@Deprecated
 @RestController
 @CrossOrigin
 @RequestMapping("/test")
-public class testController {
+public class TestController {
     @GetMapping("test1")
     public Response<String> test(){
         return new ResponseFactory<String>().getInstance("测试","测试",200);

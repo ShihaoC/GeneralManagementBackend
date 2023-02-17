@@ -4,6 +4,8 @@ package cn.mrcsh.Service;
 import cn.mrcsh.Entity.Employee;
 import cn.mrcsh.Entity.Factory.Response;
 
+import javax.servlet.http.HttpServletResponse;
+
 public interface EmployeeService {
     Response<Object> insert(Employee employee);
 
@@ -14,4 +16,6 @@ public interface EmployeeService {
     Response<Object> selectList(int page);
 
     Response<Object> selectLikeSomething(int page,String query);
+
+    void export_Excel(HttpServletResponse response);
 }

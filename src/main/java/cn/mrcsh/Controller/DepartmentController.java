@@ -20,11 +20,15 @@ public class DepartmentController {
 
     /**
      * 获取所有岗位信息
-     * @param page 页数
      * @return
      */
     @GetMapping("/all_department")
-    public Object deps(int page){
+    public Object deps(){
+        return service.selectAll();
+    }
+
+    @GetMapping("/all_department_page")
+    public Object dep(int page){
         return service.selectList(page);
     }
 
