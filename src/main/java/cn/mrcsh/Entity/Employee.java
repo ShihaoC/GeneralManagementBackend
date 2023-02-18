@@ -1,6 +1,6 @@
 package cn.mrcsh.Entity;
 
-import cn.mrcsh.Annotation.ExcelFieldName;
+import cn.mrcsh.Annotations.ExcelFieldName;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;

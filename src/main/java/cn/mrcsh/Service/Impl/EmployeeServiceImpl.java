@@ -1,6 +1,6 @@
 package cn.mrcsh.Service.Impl;
 
-import cn.mrcsh.Annotation.ExcelFieldName;
+import cn.mrcsh.Annotations.ExcelFieldName;
 import cn.mrcsh.Code.ErrorCode;
 import cn.mrcsh.Entity.Employee;
 import cn.mrcsh.Entity.Factory.PagesFactory;
@@ -69,6 +69,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public Response<Object> update(Employee employee) {
+        log.info(employee.toString());
         int update;
         try {
             QueryWrapper<Employee> wrapper = new QueryWrapper<>();

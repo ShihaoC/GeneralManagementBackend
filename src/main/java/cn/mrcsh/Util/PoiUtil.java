@@ -1,12 +1,13 @@
 package cn.mrcsh.Util;
 
+import cn.mrcsh.Entity.Employee;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -43,6 +44,7 @@ public class PoiUtil {
         response.reset();
         response.setContentType("application/vnd.ms-excel;charset=utf-8");
         response.setHeader("Content-Disposition", "attachment;filename="+ new String((fileName + ".xls").getBytes(), "iso-8859-1"));
+        response.setHeader("Access-Control-Allow-Origin","*");
         ServletOutputStream out = response.getOutputStream();
         BufferedInputStream bis = null;
         BufferedOutputStream bos = null;
@@ -81,22 +83,13 @@ public class PoiUtil {
         }
         return listmap;
     }
+
     /**
      * 利用反射  根据属性名获取属性值
-     * */
-    private static Object getFieldValueByName(String fieldName, Object o) {
-        try {
-            String firstLetter = fieldName.substring(0, 1).toUpperCase();
-            String getter = "get" + firstLetter + fieldName.substring(1);
-            Method method = o.getClass().getMethod(getter, new Class[] {});
-            Object value = method.invoke(o, new Object[] {});
-            return value;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
+     * @param fieldName 列名
+     * @param o 对象
+     * @return 值
+     */
     private static Object getFieldValue(String fieldName,Object o){
         return ReflectUtil.getFieldValue(o, fieldName);
     }
@@ -169,4 +162,5 @@ public class PoiUtil {
         }
         return wb;
     }
+
 }

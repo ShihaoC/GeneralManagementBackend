@@ -20,7 +20,7 @@ public class DepartmentController {
 
     /**
      * 获取所有岗位信息
-     * @return
+     * @return <?>
      */
     @GetMapping("/all_department")
     public Object deps(){
@@ -36,7 +36,7 @@ public class DepartmentController {
      * 根据名字模糊查询岗位信息
      * @param page 页数
      * @param query 岗位名称
-     * @return
+     * @return 通用返回体
      */
     @GetMapping("/somedepartment")
     public Object selectLikeSomething(int page,String query){
@@ -46,7 +46,7 @@ public class DepartmentController {
     /**
      * 删除岗位信息
      * @param department 岗位对象
-     * @return
+     * @return 通用返回体
      */
     @PostMapping(value = "/delete_department",consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public Object deleteDepartment(@RequestBody Department department){
@@ -56,7 +56,7 @@ public class DepartmentController {
     /**
      * 修改岗位信息
      * @param department 岗位对象
-     * @return
+     * @return 通用返回体
      */
     @PostMapping(value = "/update_department")
     public Object updateDepartment(@RequestBody Department department){
@@ -66,7 +66,7 @@ public class DepartmentController {
     /**
      * 添加岗位信息
      * @param department 岗位对象
-     * @return
+     * @return 通用返回体
      */
     @PostMapping(value = "/insert_department")
     public Object insertDepartment(@RequestBody Department department){

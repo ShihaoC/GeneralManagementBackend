@@ -1,5 +1,6 @@
 package cn.mrcsh.Controller;
 
+import cn.mrcsh.Annotations.APIMonitor;
 import cn.mrcsh.Entity.Factory.Response;
 import cn.mrcsh.Entity.User;
 import cn.mrcsh.Service.UserService;
@@ -15,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin
 @RequestMapping("/auth")
 @Slf4j
-public class UserController {
+public class AuthController {
 
     @Autowired
     private UserService service;
@@ -25,6 +26,7 @@ public class UserController {
      * @param user POST请求的参数
      * @return 通用返回体
      */
+    @APIMonitor(api = "login",parentAPI = "auth")
     @PostMapping("/login")
     public Response<User> login(@RequestBody User user) {
         return service.login(user);
@@ -35,6 +37,7 @@ public class UserController {
      * @param user POST 传入user对象
      * @return 通用返回体
      */
+    @APIMonitor(api = "register",parentAPI = "auth")
     @PostMapping("/register")
     public Response<String> register(@RequestBody User user){
         return service.register(user);

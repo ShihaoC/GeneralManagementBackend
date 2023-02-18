@@ -22,6 +22,11 @@ public class ConsoleTask implements CommandLineRunner {
                         input.close();
                         System.exit(0);
                         break;
+                    case "clear":
+                        for (int i = 0; i < 10; i++) {
+                            System.out.println("\n\n");
+                        }
+                        break;
                     default:
                         log.error("未知指令");
                         break;
