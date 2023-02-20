@@ -6,7 +6,7 @@ import cn.mrcsh.Entity.Factory.Response;
 public interface DepartmentService {
     Response<Object> insert(Department department);
 
-    Response<Object> delete(Department department);
+    Response<Object> delete(int id);
 
     Response<Object> update(Department department);
 

@@ -32,12 +32,11 @@ public class DepartmentServiceImpl implements DepartmentService {
     }
 
     @Override
-    public Response<Object> delete(Department department) {
+    public Response<Object> delete(int id) {
         int result = 0;
         QueryWrapper<Department> wrapper = new QueryWrapper<>();
         wrapper
-                .eq("department", department.getDepartment())
-                .eq("id",department.getId());
+                .eq("id",id);
         try {
             result = mapper.delete(wrapper);
         } catch (Exception e) {
@@ -54,8 +53,7 @@ public class DepartmentServiceImpl implements DepartmentService {
         int result = 0;
         QueryWrapper<Department> wrapper = new QueryWrapper<>();
         wrapper
-                .eq("id", department.getId())
-                .eq("department", department.getDepartment());
+                .eq("id", department.getId());
         try {
              result = mapper.update(department, wrapper);
         } catch (Exception e) {

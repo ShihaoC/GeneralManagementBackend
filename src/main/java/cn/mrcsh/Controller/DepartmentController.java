@@ -48,9 +48,9 @@ public class DepartmentController {
      * @param department 岗位对象
      * @return 通用返回体
      */
-    @PostMapping(value = "/delete_department",consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public Object deleteDepartment(@RequestBody Department department){
-        return service.delete(department);
+    @GetMapping(value = "/delete_department")
+    public Object deleteDepartment(@RequestBody int id){
+        return service.delete(id);
     }
 
     /**
