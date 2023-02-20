@@ -5,6 +5,9 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
+
+import java.util.Date;
+
 /**
  * <h3>岗位实体类</h3>
  * <hr/>
@@ -22,4 +25,8 @@ public class Department {
     private String department;
     @TableField(value = "nick")
     private String nick;
+    @TableField(value = "online")
+    private boolean online;
+    @TableField(value = "date")
+    private Date date;
 }
