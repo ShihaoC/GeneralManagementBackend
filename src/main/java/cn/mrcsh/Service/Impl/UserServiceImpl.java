@@ -10,6 +10,7 @@ import cn.mrcsh.Mapper.UserMapper;
 import cn.mrcsh.Service.UserService;
 import cn.mrcsh.Util.JwtUtil;
 import cn.mrcsh.Util.Md5Util;
+import cn.mrcsh.Util.PoiUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.extern.slf4j.Slf4j;
@@ -17,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.Objects;
 
 @Service
@@ -146,4 +148,34 @@ public class UserServiceImpl implements UserService {
         }
         return new ResponseFactory<>().getInstance(result,"添加成功",ErrorCode.SUCCESS);
     }
+
+    @Override
+    public Response<Object> update_statue(int id, boolean flag) {
+        QueryWrapper<User> userQueryWrapper = new QueryWrapper<>();
+        try {
+            userQueryWrapper.eq("id",id);
+        } catch (Exception e) {
+            return new ResponseFactory<>().getInstance(e.getMessage(),"添加失败",ErrorCode.ERROR);
+        }
+        User user = mapper.selectOne(userQueryWrapper);
+        user.setUsed(flag);
+        int update;
+        try {
+            update = mapper.update(user, userQueryWrapper);
+        } catch (Exception e) {
+            return new ResponseFactory<>().getInstance(e.getMessage(),"添加失败",ErrorCode.ERROR);
+        }
+        if(update > 0){
+            return new ResponseFactory<>().getInstance(update,"修改成功",ErrorCode.SUCCESS);
+
+        }
+        return new ResponseFactory<>().getInstance(update,"修改失败",ErrorCode.ERROR);
+    }
+
+    @Override
+    public void export_excel(HttpServletResponse response) {
+        PoiUtil.export_Excel(response,mapper,User.class);
+    }
+
+
 }

@@ -19,14 +19,29 @@ import java.util.Date;
 @Data
 @TableName("sys_department")
 public class Department {
+    /**
+     * 部门id
+     */
     @TableId(value = "id",type = IdType.AUTO)
     private Integer id;
+    /**
+     * 部门代号
+     */
     @TableField(value = "department")
     private String department;
+    /**
+     * 部门名称
+     */
     @TableField(value = "nick")
     private String nick;
+    /**
+     * 是否启用
+     */
     @TableField(value = "online")
     private boolean online;
+    /**
+     * 创建日期
+     */
     @TableField(value = "date")
     private Date date;
 }

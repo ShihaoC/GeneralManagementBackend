@@ -1,6 +1,9 @@
 package cn.mrcsh.Util;
 
+import cn.mrcsh.Annotations.ExcelFieldName;
 import cn.mrcsh.Entity.Employee;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import lombok.SneakyThrows;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -8,10 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class PoiUtil {
 
@@ -161,6 +161,20 @@ public class PoiUtil {
             }
         }
         return wb;
+    }
+
+    @SneakyThrows
+    public static <T> void export_Excel(HttpServletResponse response, BaseMapper<T> mapper,Class<T> clazz) {
+        List<String> FieldNames = new ArrayList<>();
+        List<String> ExcelFieldNames = new ArrayList<>();
+        ReflectUtil.forEachFields(clazz, (e) -> {
+            FieldNames.add(e.getName());
+            ExcelFieldNames.add(e.getAnnotation(ExcelFieldName.class).value());
+        });
+        List<T> list = mapper.selectList(null);
+        String[] Entity_FieldNames = FieldNames.toArray(new String[]{});
+        String[] Excel_FieldNames = ExcelFieldNames.toArray(new String[]{});
+        PoiUtil.start_download(response, UUID.randomUUID().toString(), list, Excel_FieldNames, Entity_FieldNames);
     }
 
 }

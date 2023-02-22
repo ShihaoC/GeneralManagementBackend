@@ -16,6 +16,7 @@ import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
@@ -114,16 +115,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     @SneakyThrows
     public void export_Excel(HttpServletResponse response) {
-        List<String> FieldNames = new ArrayList<>();
-        List<String> ExcelFieldNames = new ArrayList<>();
-        ReflectUtil.forEachFields(Employee.class, (e) -> {
-            FieldNames.add(e.getName());
-            ExcelFieldNames.add(e.getAnnotation(ExcelFieldName.class).value());
-        });
-        List<Employee> employees = mapper.selectList(null);
-        String[] Entity_FieldNames = FieldNames.toArray(new String[]{});
-        String[] Excel_FieldNames = ExcelFieldNames.toArray(new String[]{});
-        PoiUtil.start_download(response, UUID.randomUUID().toString(), employees, Excel_FieldNames, Entity_FieldNames);
+        PoiUtil.export_Excel(response,mapper,Employee.class);
     }
 
     @Override
@@ -134,5 +126,10 @@ public class EmployeeServiceImpl implements EmployeeService {
             });
         }
         return new ResponseFactory<>().getInstance("成功","成功",ErrorCode.SUCCESS);
+    }
+
+    @Override
+    public Response<Object> import_excel(MultipartFile file) {
+        return null;
     }
 }

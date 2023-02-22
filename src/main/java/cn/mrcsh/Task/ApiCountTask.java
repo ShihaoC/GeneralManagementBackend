@@ -30,6 +30,8 @@ public class ApiCountTask implements CommandLineRunner {
             APIInvokeCount.LoginCount.remove(0);
             APIInvokeCount.LoginCount.add(APIInvokeCount.AllLoginCount);
             APIInvokeCount.AllCount = 0;
+            APIInvokeCount.AllLoginCount = 0;
+
         }else {
             APIInvokeCount.counts.add(APIInvokeCount.AllCount);
             APIInvokeCount.counts.add(APIInvokeCount.AllLoginCount);

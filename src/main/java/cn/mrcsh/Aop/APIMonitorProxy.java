@@ -18,7 +18,7 @@ import java.util.Map;
 @Aspect
 @Component
 @Slf4j
-public class ApiMonitorProxy {
+public class APIMonitorProxy {
 
     @Pointcut("@annotation(cn.mrcsh.Annotations.APIMonitor)")
     public void APIPointCut() {

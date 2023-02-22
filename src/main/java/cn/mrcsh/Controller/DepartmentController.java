@@ -26,6 +26,11 @@ public class DepartmentController {
         return service.selectAll();
     }
 
+    /**
+     * 查询所有员工信息
+     * @param page 页数
+     * @return <?>
+     */
     @GetMapping("/all_department_page")
     public Object dep(int page){
         return service.selectList(page);

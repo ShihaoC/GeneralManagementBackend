@@ -88,12 +88,23 @@ public class EmployeeController {
         return service.update(employee);
     }
 
+    /**
+     *
+     * 导出EXCEL
+     * @param response
+     */
     @APIMonitor(api = "export_excel", parentAPI = "employee")
     @GetMapping(value = "/export_excel")
     public void export(HttpServletResponse response) {
         service.export_Excel(response);
     }
 
+    /**
+     * 批量删除
+     * @param list
+     * @return
+     */
+    @APIMonitor(api = "batch_Delete", parentAPI = "employee")
     @PostMapping(value = "/batch_Delete")
     public Object batch_Delete(@RequestBody List<Employee> list){
         return service.batch_Delete(list);

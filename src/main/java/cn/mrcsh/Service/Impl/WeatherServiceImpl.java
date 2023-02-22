@@ -6,11 +6,13 @@ import cn.mrcsh.Entity.Api.amap.IPPositioning;
 import cn.mrcsh.Entity.Api.qweather.weather;
 import cn.mrcsh.Service.WeatherService;
 import com.alibaba.fastjson2.JSON;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
 
 @Service
+@Slf4j
 public class WeatherServiceImpl implements WeatherService {
 
     @Override
@@ -28,6 +30,7 @@ public class WeatherServiceImpl implements WeatherService {
         if(ip.equals("127.0.0.1") || ip.equals("0:0:0:0:0:0:0:1")){
             ip = null;
         }
+        log.warn(ip);
         String location = "";
         if (ip != null && !ip.equals("")) {
             location = HttpUtil.get(String.format(APIConfig.amapURL_IP, "&ip="+ip));

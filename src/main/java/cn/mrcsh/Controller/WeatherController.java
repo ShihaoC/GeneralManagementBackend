@@ -12,6 +12,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 
+/**
+ * 天气API
+ */
 @RestController
 @CrossOrigin
 @RequestMapping("/api")
@@ -20,6 +23,10 @@ public class WeatherController {
     @Autowired
     private WeatherService service;
 
+    /**
+     * 天气接口
+     * @return <T>
+     */
     @GetMapping("/weather")
     public Object getWeather(HttpServletRequest request){
         weather weather = service.getWeather(request);
