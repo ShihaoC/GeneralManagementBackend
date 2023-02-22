@@ -4,7 +4,6 @@ import cn.mrcsh.Entity.Department;
 import cn.mrcsh.Service.DepartmentService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -45,7 +44,6 @@ public class DepartmentController {
 
     /**
      * 删除岗位信息
-     * @param department 岗位对象
      * @return 通用返回体
      */
     @GetMapping(value = "/delete_department")

@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.stereotype.Component;
@@ -49,5 +50,11 @@ public class ApiMonitorProxy {
             map.put(api, 1);
             APIInvokeCount.count.put(parentAPI, map);
         }
+    }
+
+
+    @Before("APIPointCut()")
+    public void before(){
+        APIInvokeCount.AllCount++;
     }
 }

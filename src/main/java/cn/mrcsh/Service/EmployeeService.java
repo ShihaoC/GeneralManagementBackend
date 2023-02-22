@@ -5,6 +5,7 @@ import cn.mrcsh.Entity.Employee;
 import cn.mrcsh.Entity.Factory.Response;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 public interface EmployeeService {
     Response<Object> insert(Employee employee);
@@ -18,4 +19,6 @@ public interface EmployeeService {
     Response<Object> selectLikeSomething(int page,String query);
 
     void export_Excel(HttpServletResponse response);
+
+    Response<Object> batch_Delete(List<Employee> list);
 }

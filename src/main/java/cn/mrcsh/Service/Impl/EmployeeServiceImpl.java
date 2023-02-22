@@ -125,4 +125,14 @@ public class EmployeeServiceImpl implements EmployeeService {
         String[] Excel_FieldNames = ExcelFieldNames.toArray(new String[]{});
         PoiUtil.start_download(response, UUID.randomUUID().toString(), employees, Excel_FieldNames, Entity_FieldNames);
     }
+
+    @Override
+    public Response<Object> batch_Delete(List<Employee> list) {
+        if(list.size() != 0){
+            list.forEach((e)->{
+                mapper.deleteById(e);
+            });
+        }
+        return new ResponseFactory<>().getInstance("成功","成功",ErrorCode.SUCCESS);
+    }
 }

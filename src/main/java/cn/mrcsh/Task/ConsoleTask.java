@@ -1,5 +1,6 @@
 package cn.mrcsh.Task;
 
+import cn.mrcsh.Cache.APIInvokeCount;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -11,6 +12,9 @@ import java.util.Scanner;
 public class ConsoleTask implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
+        for (int i = 0; i < 15; i++) {
+            APIInvokeCount.counts.add(0);
+        }
         new Thread(()->{
             Scanner input = new Scanner(System.in);
             while (true) {

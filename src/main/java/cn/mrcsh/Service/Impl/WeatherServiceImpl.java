@@ -9,7 +9,6 @@ import com.alibaba.fastjson2.JSON;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Arrays;
 
 @Service
 public class WeatherServiceImpl implements WeatherService {
@@ -35,18 +34,11 @@ public class WeatherServiceImpl implements WeatherService {
         } else {
             location = HttpUtil.get(String.format(APIConfig.amapURL_IP,""));
         }
-        System.out.println(location);
-        System.out.println(ip);
         IPPositioning ipPositioning = JSON.parseObject(location, IPPositioning.class);
         String[] split = ipPositioning.getRectangle().replaceAll("\\;", ",").split(",");
-        System.out.println(Arrays.toString(split));
         String local = split[0] + "," + split[3];
         String weather = HttpUtil.get(String.format(APIConfig.qweatherURL_NOW, local));
         weather weather1 = JSON.parseObject(weather, weather.class);
         return weather1;
-    }
-
-    public static void main(String[] args) {
-        new WeatherServiceImpl().getWeather(null);
     }
 }

@@ -3,16 +3,19 @@ package cn.mrcsh.Controller;
 import cn.mrcsh.Annotations.APIMonitor;
 import cn.mrcsh.Entity.Employee;
 import cn.mrcsh.Service.EmployeeService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.sql.Date;
+import java.util.List;
 
 /**
  * 员工管理接口
  */
 @RestController
+@Slf4j
 @RequestMapping("/em")
 @CrossOrigin(origins = "*", exposedHeaders = "Access-Control-Allow-Origin")
 public class EmployeeController {
@@ -89,5 +92,10 @@ public class EmployeeController {
     @GetMapping(value = "/export_excel")
     public void export(HttpServletResponse response) {
         service.export_Excel(response);
+    }
+
+    @PostMapping(value = "/batch_Delete")
+    public Object batch_Delete(@RequestBody List<Employee> list){
+        return service.batch_Delete(list);
     }
 }
