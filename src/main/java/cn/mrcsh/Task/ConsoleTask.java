@@ -14,6 +14,7 @@ public class ConsoleTask implements CommandLineRunner {
     public void run(String... args) throws Exception {
         for (int i = 0; i < 15; i++) {
             APIInvokeCount.counts.add(0);
+            APIInvokeCount.LoginCount.add(0);
         }
         new Thread(()->{
             Scanner input = new Scanner(System.in);

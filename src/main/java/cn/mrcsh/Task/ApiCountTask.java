@@ -1,6 +1,7 @@
 package cn.mrcsh.Task;
 
 import cn.mrcsh.Cache.APIInvokeCount;
+import com.google.protobuf.Api;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -26,10 +27,14 @@ public class ApiCountTask implements CommandLineRunner {
         if(APIInvokeCount.counts.size() == 15){
             APIInvokeCount.counts.remove(0);
             APIInvokeCount.counts.add(APIInvokeCount.AllCount);
+            APIInvokeCount.LoginCount.remove(0);
+            APIInvokeCount.LoginCount.add(APIInvokeCount.AllLoginCount);
             APIInvokeCount.AllCount = 0;
         }else {
             APIInvokeCount.counts.add(APIInvokeCount.AllCount);
+            APIInvokeCount.counts.add(APIInvokeCount.AllLoginCount);
             APIInvokeCount.AllCount = 0;
+            APIInvokeCount.AllLoginCount = 0;
         }
     }
 }

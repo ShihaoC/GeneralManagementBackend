@@ -15,7 +15,11 @@ import java.util.List;
 public class ApiCountController {
     @GetMapping("/count")
     public List<Integer> getApiCount(){
-        List<Integer> counts = APIInvokeCount.counts;
-        return counts;
+        return APIInvokeCount.counts;
+    }
+
+    @GetMapping("/login")
+    public List<Integer> getLoginCount(){
+        return APIInvokeCount.LoginCount;
     }
 }

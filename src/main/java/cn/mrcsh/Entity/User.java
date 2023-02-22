@@ -46,6 +46,9 @@ public class User {
      */
     @TableField(value = "department")
     private String department; // 部门
+
+    @TableField(value = "used")
+    private boolean used;
     /**
      * Token
      */
