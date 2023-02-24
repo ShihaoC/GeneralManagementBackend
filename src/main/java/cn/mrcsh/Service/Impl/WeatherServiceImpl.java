@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 @Slf4j
 public class WeatherServiceImpl implements WeatherService {
 
+
     @Override
     public weather getWeather(HttpServletRequest request) {
         String ip = "";
@@ -27,7 +28,7 @@ public class WeatherServiceImpl implements WeatherService {
         }else if(request.getRemoteAddr() != null){
             ip = request.getRemoteAddr();
         }
-        if(ip.equals("127.0.0.1") || ip.equals("0:0:0:0:0:0:0:1")){
+        if(ip.equals("127.0.0.1") || ip.equals("0:0:0:0:0:0:0:1") || ip.contains("172")){
             ip = null;
         }
         log.warn(ip);

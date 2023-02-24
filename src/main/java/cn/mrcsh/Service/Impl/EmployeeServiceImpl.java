@@ -1,15 +1,12 @@
 package cn.mrcsh.Service.Impl;
 
-import cn.mrcsh.Annotations.ExcelFieldName;
 import cn.mrcsh.Code.ErrorCode;
 import cn.mrcsh.Entity.Employee;
 import cn.mrcsh.Entity.Factory.PagesFactory;
-import cn.mrcsh.Entity.Factory.Response;
-import cn.mrcsh.Entity.Factory.ResponseFactory;
+import cn.mrcsh.Entity.Result;
 import cn.mrcsh.Mapper.EmployeeMapper;
 import cn.mrcsh.Service.EmployeeService;
 import cn.mrcsh.Util.PoiUtil;
-import cn.mrcsh.Util.ReflectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.SneakyThrows;
@@ -19,9 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 @Service
 @Slf4j
@@ -30,27 +25,27 @@ public class EmployeeServiceImpl implements EmployeeService {
     private EmployeeMapper mapper;
 
     @Override
-    public Response<Object> insert(Employee employee) {
+    public Result insert(Employee employee) {
         QueryWrapper<Employee> wrapper = new QueryWrapper<>();
         wrapper
                 .eq("phone", employee.getPhone())
                 .eq("name", employee.getName());
         Employee checkExists = mapper.selectOne(wrapper);
         if (checkExists != null) {
-            return new ResponseFactory<>().getInstance("已经存在", "已经存在", ErrorCode.IS_EXISTS);
+            return Result.fail("已经存在");
         }
         int insert = 0;
         try {
             insert = mapper.insert(employee);
         } catch (Exception e) {
             e.printStackTrace();
-            return new ResponseFactory<>().getInstance(e.getMessage(), "添加失败", ErrorCode.ERROR);
+            return Result.fail(e.getMessage());
         }
-        return new ResponseFactory<>().getInstance(insert, "添加成功", ErrorCode.SUCCESS);
+        return Result.success(insert);
     }
 
     @Override
-    public Response<Object> delete(int id, String name) {
+    public Result delete(int id, String name) {
         QueryWrapper<Employee> wrapper = new QueryWrapper<>();
         wrapper
                 .eq("name", name)
@@ -62,14 +57,14 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         }
         if (delete > 0) {
-            return new ResponseFactory<>().getInstance(delete, "删除成功", ErrorCode.NOT_EXISTS);
+            return Result.success(delete);
         }
-        return new ResponseFactory<>().getInstance("没有这个人", "删除失败", ErrorCode.NOT_EXISTS);
+        return Result.fail("没有这个人");
 
     }
 
     @Override
-    public Response<Object> update(Employee employee) {
+    public Result update(Employee employee) {
         log.info(employee.toString());
         int update;
         try {
@@ -79,27 +74,27 @@ public class EmployeeServiceImpl implements EmployeeService {
             update = mapper.update(employee, wrapper);
         } catch (Exception e) {
             e.printStackTrace();
-            return new ResponseFactory<>().getInstance(e.getMessage(), "修改失败", ErrorCode.ERROR);
+            return Result.fail("修改失败");
         }
         if (update > 0) {
-            return new ResponseFactory<>().getInstance(update, "修改成功", ErrorCode.SUCCESS);
+            return Result.success(update);
         }
-        return new ResponseFactory<>().getInstance(update, "修改失败，没有这个人", ErrorCode.ERROR);
+        return Result.fail("没有这个人");
     }
 
     @Override
-    public Response<Object> selectList(int page) {
+    public Result selectList(int page) {
         Page<Employee> employeePage = new Page<>(page, 10);
         try {
             mapper.selectPage(employeePage, null);
         } catch (Exception e) {
-            return new ResponseFactory<>().getInstance(e.getMessage(), "错误", ErrorCode.ERROR);
+            return Result.fail("错误");
         }
-        return new ResponseFactory<>().getInstance(new PagesFactory<>().getInstance(employeePage.getCurrent(), employeePage.getTotal(), employeePage.getRecords()), "查询成功", ErrorCode.SUCCESS);
+        return Result.success(new PagesFactory<>().getInstance(employeePage.getCurrent(), employeePage.getTotal(), employeePage.getRecords()));
     }
 
     @Override
-    public Response<Object> selectLikeSomething(int page, String query) {
+    public Result selectLikeSomething(int page, String query) {
         Page<Employee> employeePage = new Page<>(page, 10);
         try {
             QueryWrapper<Employee> wrapper = new QueryWrapper<>();
@@ -107,9 +102,9 @@ public class EmployeeServiceImpl implements EmployeeService {
                     .like("name", query);
             mapper.selectPage(employeePage, wrapper);
         } catch (Exception e) {
-            return new ResponseFactory<>().getInstance(e.getMessage(), "错误", ErrorCode.ERROR);
+            return Result.fail(e.getMessage());
         }
-        return new ResponseFactory<>().getInstance(new PagesFactory<>().getInstance(employeePage.getCurrent(), employeePage.getTotal(), employeePage.getRecords()), "查询成功", ErrorCode.SUCCESS);
+        return Result.success(new PagesFactory<>().getInstance(employeePage.getCurrent(), employeePage.getTotal(), employeePage.getRecords()));
     }
 
     @Override
@@ -119,17 +114,17 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public Response<Object> batch_Delete(List<Employee> list) {
+    public Result batch_Delete(List<Employee> list) {
         if(list.size() != 0){
             list.forEach((e)->{
                 mapper.deleteById(e);
             });
         }
-        return new ResponseFactory<>().getInstance("成功","成功",ErrorCode.SUCCESS);
+        return Result.success("成功");
     }
 
     @Override
-    public Response<Object> import_excel(MultipartFile file) {
+    public Result import_excel(MultipartFile file) {
         return null;
     }
 }

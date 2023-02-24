@@ -3,8 +3,7 @@ package cn.mrcsh.Service.Impl;
 import cn.mrcsh.Code.ErrorCode;
 import cn.mrcsh.Entity.Department;
 import cn.mrcsh.Entity.Factory.PagesFactory;
-import cn.mrcsh.Entity.Factory.Response;
-import cn.mrcsh.Entity.Factory.ResponseFactory;
+import cn.mrcsh.Entity.Result;
 import cn.mrcsh.Mapper.DepartmentMapper;
 import cn.mrcsh.Service.DepartmentService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -20,19 +19,17 @@ import java.util.Objects;
 @Slf4j
 public class DepartmentServiceImpl implements DepartmentService {
 
-    // 数据库操作Mapper
     @Autowired
     private DepartmentMapper mapper;
 
-    // 添加方法
     @Override
-    public Response<Object> insert(Department department) {
+    public Result insert(Department department) {
         int result = mapper.insert(Objects.requireNonNull(department));
-        return new ResponseFactory<>().getInstance(result, "添加成功", ErrorCode.SUCCESS);
+        return Result.success(result);
     }
 
     @Override
-    public Response<Object> delete(int id) {
+    public Result delete(int id) {
         int result = 0;
         QueryWrapper<Department> wrapper = new QueryWrapper<>();
         wrapper
@@ -40,16 +37,16 @@ public class DepartmentServiceImpl implements DepartmentService {
         try {
             result = mapper.delete(wrapper);
         } catch (Exception e) {
-            return new ResponseFactory<>().getInstance(e.getMessage(), "删除失败", ErrorCode.ERROR);
+            return Result.fail("删除失败");
         }
         if (result > 0) {
-            return new ResponseFactory<>().getInstance(result, "删除成功", ErrorCode.SUCCESS);
+            return Result.success(result);
         }
-        return new ResponseFactory<>().getInstance(result, "不存在此岗位", ErrorCode.NOT_EXISTS);
+        return Result.fail("不存在此岗位");
     }
 
     @Override
-    public Response<Object> update(Department department) {
+    public Result update(Department department) {
         int result = 0;
         QueryWrapper<Department> wrapper = new QueryWrapper<>();
         wrapper
@@ -59,11 +56,11 @@ public class DepartmentServiceImpl implements DepartmentService {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-        return new ResponseFactory<>().getInstance(result,"修改成功", ErrorCode.SUCCESS);
+        return Result.success(result);
     }
 
     @Override
-    public Response<Object> selectList(int page) {
+    public Result selectList(int page) {
         List<Department> departments = null;
         Page<Department> departmentPage = null;
         try {
@@ -71,25 +68,25 @@ public class DepartmentServiceImpl implements DepartmentService {
             mapper.selectPage(departmentPage, null);
             departments = departmentPage.getRecords();
         } catch (Exception e) {
-            return new ResponseFactory<>().getInstance(e.getMessage(), "服务器出错", ErrorCode.ERROR);
+            return Result.fail(e.getMessage());
         }
-        return new ResponseFactory<>().getInstance(new PagesFactory<>().getInstance(departmentPage.getCurrent(), departmentPage.getTotal(), departments), "查询成功", ErrorCode.SUCCESS);
+        return Result.success(new PagesFactory<>().getInstance(departmentPage.getCurrent(), departmentPage.getTotal(), departments));
     }
 
     @Override
-    public Response<Object> selectAll() {
+    public Result selectAll() {
         List<Department> departments = null;
         try {
             departments = mapper.selectList(null);
         } catch (Exception e) {
             e.printStackTrace();
-            return new ResponseFactory<>().getInstance(e.getMessage(),"查询失败", ErrorCode.ERROR);
+            return Result.fail("查询失败");
         }
-        return new ResponseFactory<>().getInstance(departments,"查询成功", ErrorCode.SUCCESS);
+        return Result.success(departments);
     }
 
     @Override
-    public Response<Object> selectLikeSomething(int page, String query) {
+    public Result selectLikeSomething(int page, String query) {
         List<Department> departments = null;
         Page<Department> departmentPage = null;
         try {
@@ -100,8 +97,8 @@ public class DepartmentServiceImpl implements DepartmentService {
             mapper.selectPage(departmentPage, wrapper);
             departments = departmentPage.getRecords();
         } catch (Exception e) {
-            return new ResponseFactory<>().getInstance(e.getMessage(), "查询出错", ErrorCode.ERROR);
+            return Result.fail("查询出错");
         }
-        return new ResponseFactory<>().getInstance(new PagesFactory<>().getInstance(departmentPage.getCurrent(), departmentPage.getTotal(), departments), "查询成功", ErrorCode.SUCCESS);
+        return Result.success(new PagesFactory<>().getInstance(departmentPage.getCurrent(), departmentPage.getTotal(), departments));
     }
 }

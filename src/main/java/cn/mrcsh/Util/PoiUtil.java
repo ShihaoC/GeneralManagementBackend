@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import lombok.SneakyThrows;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.ServletOutputStream;
@@ -25,6 +26,7 @@ public class PoiUtil {
      * @param columnNames 对应exile列名
      * @param keys 对应实体类字段名
      */
+    @CrossOrigin
     public static void start_download(HttpServletResponse response, String fileName, List<?> projects,
                                       String[] columnNames, String[] keys) throws IOException {
 
@@ -164,6 +166,7 @@ public class PoiUtil {
     }
 
     @SneakyThrows
+    @CrossOrigin
     public static <T> void export_Excel(HttpServletResponse response, BaseMapper<T> mapper,Class<T> clazz) {
         List<String> FieldNames = new ArrayList<>();
         List<String> ExcelFieldNames = new ArrayList<>();

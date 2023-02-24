@@ -5,6 +5,7 @@ import cn.mrcsh.Entity.Employee;
 import cn.mrcsh.Service.EmployeeService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
@@ -30,6 +31,7 @@ public class EmployeeController {
      */
     @APIMonitor(api = "insert_employee",parentAPI = "employee")
     @PostMapping(value = "/insert_employee")
+    @PreAuthorize("hasAuthority('system:employee:insert')")
     public Object insertEmployee(@RequestBody Employee employee) {
         employee.setJoin_date(new Date(System.currentTimeMillis()));
         employee.setClockin(false);
@@ -46,6 +48,7 @@ public class EmployeeController {
      */
     @APIMonitor(api = "select_all", parentAPI = "employee")
     @GetMapping(value = "/select_all")
+    @PreAuthorize("hasAuthority('system:employee:query')")
     public Object selectAll(int page) {
         return service.selectList(page);
     }
@@ -59,6 +62,7 @@ public class EmployeeController {
      */
     @APIMonitor(api = "select_something", parentAPI = "employee")
     @GetMapping(value = "/select_something")
+    @PreAuthorize("hasAuthority('system:employee:query')")
     public Object selectSomething(String query, int page) {
         return service.selectLikeSomething(page, query);
     }
@@ -72,6 +76,7 @@ public class EmployeeController {
      */
     @APIMonitor(api = "delete_employee", parentAPI = "employee")
     @GetMapping(value = "/delete_employee")
+    @PreAuthorize("hasAuthority('system:employee:delete')")
     public Object delete(int id, String name) {
         return service.delete(id, name);
     }
@@ -84,6 +89,7 @@ public class EmployeeController {
      */
     @APIMonitor(api = "update_employee", parentAPI = "employee")
     @PostMapping(value = "/update_employee")
+    @PreAuthorize("hasAuthority('system:employee:update')")
     public Object update(@RequestBody Employee employee) {
         return service.update(employee);
     }
@@ -95,6 +101,7 @@ public class EmployeeController {
      */
     @APIMonitor(api = "export_excel", parentAPI = "employee")
     @GetMapping(value = "/export_excel")
+    @PreAuthorize("hasAuthority('system:employee:export')")
     public void export(HttpServletResponse response) {
         service.export_Excel(response);
     }
@@ -106,6 +113,7 @@ public class EmployeeController {
      */
     @APIMonitor(api = "batch_Delete", parentAPI = "employee")
     @PostMapping(value = "/batch_Delete")
+    @PreAuthorize("hasAuthority('system:employee:betch')")
     public Object batch_Delete(@RequestBody List<Employee> list){
         return service.batch_Delete(list);
     }

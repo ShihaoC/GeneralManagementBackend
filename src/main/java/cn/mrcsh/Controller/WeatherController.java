@@ -1,8 +1,7 @@
 package cn.mrcsh.Controller;
 
-import cn.mrcsh.Code.ErrorCode;
 import cn.mrcsh.Entity.Api.qweather.weather;
-import cn.mrcsh.Entity.Factory.ResponseFactory;
+import cn.mrcsh.Entity.Result;
 import cn.mrcsh.Service.WeatherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -30,6 +29,6 @@ public class WeatherController {
     @GetMapping("/weather")
     public Object getWeather(HttpServletRequest request){
         weather weather = service.getWeather(request);
-        return new ResponseFactory<cn.mrcsh.Entity.Api.qweather.weather.now>().getInstance(weather.getNow(),"成功", ErrorCode.SUCCESS);
+        return Result.success(weather.getNow());
     }
 }

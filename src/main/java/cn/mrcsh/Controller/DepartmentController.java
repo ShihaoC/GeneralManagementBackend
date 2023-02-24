@@ -1,5 +1,6 @@
 package cn.mrcsh.Controller;
 
+import cn.mrcsh.Annotations.APIMonitor;
 import cn.mrcsh.Entity.Department;
 import cn.mrcsh.Service.DepartmentService;
 import lombok.extern.slf4j.Slf4j;
@@ -21,6 +22,7 @@ public class DepartmentController {
      * 获取所有岗位信息
      * @return <?>
      */
+    @APIMonitor(value = "all_department",parentAPI = "dep")
     @GetMapping("/all_department")
     public Object deps(){
         return service.selectAll();
@@ -31,6 +33,7 @@ public class DepartmentController {
      * @param page 页数
      * @return <?>
      */
+    @APIMonitor(value = "all_department_page",parentAPI = "dep")
     @GetMapping("/all_department_page")
     public Object dep(int page){
         return service.selectList(page);
@@ -42,6 +45,7 @@ public class DepartmentController {
      * @param query 岗位名称
      * @return 通用返回体
      */
+    @APIMonitor(value = "somedepartment",parentAPI = "dep")
     @GetMapping("/somedepartment")
     public Object selectLikeSomething(int page,String query){
         return service.selectLikeSomething(page, query);
@@ -51,8 +55,9 @@ public class DepartmentController {
      * 删除岗位信息
      * @return 通用返回体
      */
+    @APIMonitor(value = "delete_department",parentAPI = "dep")
     @GetMapping(value = "/delete_department")
-    public Object deleteDepartment(@RequestBody int id){
+    public Object deleteDepartment(int id){
         return service.delete(id);
     }
 
@@ -61,6 +66,7 @@ public class DepartmentController {
      * @param department 岗位对象
      * @return 通用返回体
      */
+    @APIMonitor(value = "update_department",parentAPI = "dep")
     @PostMapping(value = "/update_department")
     public Object updateDepartment(@RequestBody Department department){
         return service.update(department);
@@ -71,6 +77,7 @@ public class DepartmentController {
      * @param department 岗位对象
      * @return 通用返回体
      */
+    @APIMonitor(value = "insert_department",parentAPI = "dep")
     @PostMapping(value = "/insert_department")
     public Object insertDepartment(@RequestBody Department department){
         return service.insert(department);

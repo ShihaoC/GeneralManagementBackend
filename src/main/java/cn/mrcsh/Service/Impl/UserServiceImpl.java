@@ -1,11 +1,10 @@
 package cn.mrcsh.Service.Impl;
 
-import cn.mrcsh.Code.ErrorCode;
 import cn.mrcsh.Entity.Factory.PagesFactory;
-import cn.mrcsh.Entity.Factory.Response;
-import cn.mrcsh.Entity.Factory.ResponseFactory;
+import cn.mrcsh.Entity.Result;
 import cn.mrcsh.Entity.User;
 import cn.mrcsh.Enum.ROLE;
+import cn.mrcsh.Mapper.RoleMapper;
 import cn.mrcsh.Mapper.UserMapper;
 import cn.mrcsh.Service.UserService;
 import cn.mrcsh.Util.JwtUtil;
@@ -15,18 +14,27 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
 public class UserServiceImpl implements UserService {
 
     @Autowired
+    private RoleMapper roleMapper;
+
+    @Autowired
     private UserMapper mapper;
+
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     /**
      * 登录方法
@@ -36,18 +44,18 @@ public class UserServiceImpl implements UserService {
      */
     @Transactional
     @Override
-    public Response<User> login(User user) {
+    public User login(User user) {
         QueryWrapper<User> wrapper = new QueryWrapper<>();
         wrapper
                 .eq("username", user.getUsername())
                 .eq("password", Md5Util.generateMd5Hex(user.getPassword()));
         User resultUser = mapper.selectOne(wrapper);
         if (resultUser == null) {
-            return new ResponseFactory<User>().getInstance(null, "用户名密码不正确", ErrorCode.ERROR);
+
         }
         String token = JwtUtil.getToken(resultUser.getUsername(), ROLE.valueOf(resultUser.getRole()));
         resultUser.setToken(token);
-        return new ResponseFactory<User>().getInstance(resultUser, "success", ErrorCode.SUCCESS);
+        return resultUser;
     }
 
     /**
@@ -58,9 +66,9 @@ public class UserServiceImpl implements UserService {
      */
     @Transactional
     @Override
-    public Response<String> register(User user) {
+    public Result register(User user) {
         if (user == null) {
-            return new ResponseFactory<String>().getInstance("表单内容为空", "error", ErrorCode.ERROR);
+           return Result.fail("表单内容为空");
         }
         QueryWrapper<User> wrapper = new QueryWrapper<>();
         wrapper.eq("username",user.getUsername());
@@ -68,22 +76,23 @@ public class UserServiceImpl implements UserService {
         User queryResult = mapper.selectOne(wrapper);
 
         if(queryResult != null){
-            return new ResponseFactory<String>().getInstance("已经存在","已经存在", ErrorCode.IS_EXISTS);
+            return Result.fail("已经存在");
         }
 
         user.setRole(ROLE.STAFF.toString());
         user.setDepartment("DEFAULT");
-        user.setPassword(Md5Util.generateMd5Hex(user.getPassword()));
+        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         user.setNick_name("nick");
         int insert = mapper.insert(user);
         if (insert > 0) {
-            return new ResponseFactory<String>().getInstance("注册成功", "success", ErrorCode.SUCCESS);
+            return Result.success("注册成功");
         }
-        return new ResponseFactory<String>().getInstance("注册失败", Objects.requireNonNull(user).getUsername() == null ? "用户名不能为空" : "密码不能为空", ErrorCode.ERROR);
+        return Result.fail("注册失败");
+
     }
 
     @Override
-    public Response<Object> selectList(String search, int page) {
+    public Result selectList(String search, int page) {
         Page<User> userPage = new Page<>(page, 10);
         QueryWrapper<User> wrapper = new QueryWrapper<>();
         wrapper
@@ -92,17 +101,17 @@ public class UserServiceImpl implements UserService {
         try {
             userPage1 = mapper.selectPage(userPage, wrapper);
         } catch (Exception e) {
-            new ResponseFactory<>().getInstance(e.getMessage(), "查询失败", ErrorCode.ERROR);
+            return Result.fail(e.getMessage());
         }
         if(userPage1 != null){
-            return new ResponseFactory<>().getInstance(new PagesFactory<>().getInstance(userPage1.getCurrent(), userPage1.getTotal(), userPage1.getRecords()),"查询成功",ErrorCode.SUCCESS);
+            return Result.success(new PagesFactory<>().getInstance(userPage1.getCurrent(), userPage1.getTotal(), userPage1.getRecords()));
         }else {
             return null;
         }
     }
 
     @Override
-    public Response<Object> delete(int id) {
+    public Result delete(int id) {
         QueryWrapper<User> wrapper = new QueryWrapper<>();
         wrapper
                 .eq("id",id);
@@ -110,52 +119,55 @@ public class UserServiceImpl implements UserService {
         try {
             delete = mapper.delete(wrapper);
         } catch (Exception e) {
-            return new ResponseFactory<>().getInstance(e.getMessage(),"删除失败",ErrorCode.ERROR);
+            return Result.fail(e.getMessage());
         }
         if(delete > 0){
-            return new ResponseFactory<>().getInstance(delete,"删除成功",ErrorCode.SUCCESS);
+            return Result.success("删除成功");
         }
-        return new ResponseFactory<>().getInstance(delete,"没有这个用户",ErrorCode.NOT_EXISTS);
+        return Result.fail("没有这个用户");
     }
 
     @Override
-    public Response<Object> update(User user) {
+    public Result update(User user) {
         QueryWrapper<User> wrapper = new QueryWrapper<>();
         wrapper.eq("id",user.getId());
         int result;
         try {
             result = mapper.update(user,wrapper);
         } catch (Exception e) {
-            return new ResponseFactory<>().getInstance(e.getMessage(),"修改失败",ErrorCode.ERROR);
+            return Result.fail(e.getMessage());
+
         }
         if(result > 0){
-            return new ResponseFactory<>().getInstance(result,"修改成功",ErrorCode.SUCCESS);
+            return Result.success("修改成功");
         }
-        return new ResponseFactory<>().getInstance(result,"没有这个用户",ErrorCode.NOT_EXISTS);
+        return Result.fail("没有这个用户");
     }
 
     @Override
-    public Response<Object> insert(User user) {
+    public Result insert(User user) {
         int result;
         if(user != null){
             try {
                 result = mapper.insert(user);
             } catch (Exception e) {
-                return new ResponseFactory<>().getInstance(e.getMessage(),"添加失败",ErrorCode.ERROR);
+                return Result.fail(e.getMessage());
+
             }
         }else {
-            return new ResponseFactory<>().getInstance("表单为空","表单为空",ErrorCode.NOT_EXISTS);
+            return Result.fail("表单为空");
         }
-        return new ResponseFactory<>().getInstance(result,"添加成功",ErrorCode.SUCCESS);
+        return Result.success(result);
+
     }
 
     @Override
-    public Response<Object> update_statue(int id, boolean flag) {
+    public Result update_statue(int id, boolean flag) {
         QueryWrapper<User> userQueryWrapper = new QueryWrapper<>();
         try {
             userQueryWrapper.eq("id",id);
         } catch (Exception e) {
-            return new ResponseFactory<>().getInstance(e.getMessage(),"添加失败",ErrorCode.ERROR);
+            return Result.fail("添加失败");
         }
         User user = mapper.selectOne(userQueryWrapper);
         user.setUsed(flag);
@@ -163,18 +175,24 @@ public class UserServiceImpl implements UserService {
         try {
             update = mapper.update(user, userQueryWrapper);
         } catch (Exception e) {
-            return new ResponseFactory<>().getInstance(e.getMessage(),"添加失败",ErrorCode.ERROR);
-        }
-        if(update > 0){
-            return new ResponseFactory<>().getInstance(update,"修改成功",ErrorCode.SUCCESS);
+            return Result.fail(e.getMessage());
 
         }
-        return new ResponseFactory<>().getInstance(update,"修改失败",ErrorCode.ERROR);
+        if(update > 0){
+            return Result.success(update);
+
+        }
+        return Result.fail("修改失败");
     }
 
     @Override
     public void export_excel(HttpServletResponse response) {
         PoiUtil.export_Excel(response,mapper,User.class);
+    }
+
+    @Override
+    public User getSimple(String username) {
+        return mapper.selectOne(new QueryWrapper<User>().eq("username", username));
     }
 
 

@@ -1,19 +1,19 @@
 package cn.mrcsh.Service;
 
 import cn.mrcsh.Entity.Department;
-import cn.mrcsh.Entity.Factory.Response;
+import cn.mrcsh.Entity.Result;
 
 public interface DepartmentService {
-    Response<Object> insert(Department department);
+    Result insert(Department department);
 
-    Response<Object> delete(int id);
+    Result delete(int id);
 
-    Response<Object> update(Department department);
+    Result update(Department department);
 
-    Response<Object> selectList(int page);
+    Result selectList(int page);
 
-    Response<Object> selectAll();
+    Result selectAll();
 
 
-    Response<Object> selectLikeSomething(int page,String query);
+    Result selectLikeSomething(int page,String query);
 }
