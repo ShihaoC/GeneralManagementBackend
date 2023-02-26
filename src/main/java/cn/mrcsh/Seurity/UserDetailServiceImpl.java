@@ -31,6 +31,7 @@ public class UserDetailServiceImpl implements UserDetailsService {
     private RoleMapper roleMapper;
     @Autowired
     private RoleConnectMapper roleConnectMapper;
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         QueryWrapper<User> wrapper = new QueryWrapper<>();
@@ -46,20 +47,17 @@ public class UserDetailServiceImpl implements UserDetailsService {
         User user = userMapper.selectOne(new QueryWrapper<User>().eq("id", userId));
         String role_id = user.getRole();
         List<Role> roles = roleMapper.selectList(new QueryWrapper<Role>().eq("id", role_id));
-        if(roles.size() > 0){
+        if (roles.size() > 0) {
             authority = new StringBuilder(roles.stream().map(e -> "ROLE_" + e.getRole_name()).collect(Collectors.joining(",")));
         }
 
         List<Authority> authorities = roleConnectMapper.list(Integer.parseInt(role_id));
-        authority.append(",");
-        if(authorities.size() > 0){
+        if (authorities.size() > 0) {
             for (Authority e : authorities) {
-                if(e.isEnable()){
-                    authority.append(",").append(e.getValue());
-                }
+                authority.append(",").append(e.getValue());
             }
         }
-        log.info("AUTH:::"+authority);
+        log.info("AUTH:::" + authority);
         return AuthorityUtils.commaSeparatedStringToAuthorityList(authority.toString());
     }
 }

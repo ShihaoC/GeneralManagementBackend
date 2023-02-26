@@ -50,6 +50,10 @@ public class Employee {
     @ExcelFieldName("是否签到(今日)")
     @TableField("clockin")
     private boolean clockin;
+
+    @ExcelFieldName("状态/签到/签退/未签到")
+    @TableField("statue")
+    private String statue;
     /**
      * 此工程工数
      */
@@ -68,4 +72,8 @@ public class Employee {
     @ExcelFieldName("手机号")
     @TableField("phone")
     private String phone;
+
+    @ExcelFieldName("绑定的qq号")
+    @TableField("bind_qq")
+    private String bind_qq;
 }

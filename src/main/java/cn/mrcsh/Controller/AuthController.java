@@ -1,23 +1,16 @@
 package cn.mrcsh.Controller;
 
 import cn.mrcsh.Annotations.APIMonitor;
-import cn.mrcsh.Entity.Authority;
-import cn.mrcsh.Entity.Role;
+import cn.mrcsh.Entity.Result;
+import cn.mrcsh.Entity.TreeNode;
 import cn.mrcsh.Entity.User;
 import cn.mrcsh.Service.Impl.AuthorityService;
 import cn.mrcsh.Service.UserService;
-import cn.mrcsh.Util.JwtUtil;
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.TypeReference;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwt;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
@@ -60,19 +53,39 @@ public class AuthController {
         return service.register(user);
     }
 
+    /**
+     * 获取权限列表
+     * @param role_id @de
+     * @return 返回体
+     */
     @GetMapping("/getAuthority")
     public Object Author(int role_id) {
-        return authorityService.selectAll(role_id);
+        List<TreeNode> treeNodes = authorityService.selectAll(role_id);
+        return Result.success(treeNodes);
     }
 
-    @PostMapping("/insertAuthority")
-    public Object insert(Role role) {
-        return authorityService.insert(role);
-    }
-
+    /**
+     *
+     * @param authority_ids 权限ids
+     * @param role_id 角色id
+     * @return 返回体
+     */
     @PostMapping("/update")
-    public Object update(@RequestBody List<Authority> list,int role_id){
-        return authorityService.update(list, role_id);
+    public Object update(@RequestBody List<Integer> authority_ids, int role_id){
+        return authorityService.update(authority_ids, role_id);
     }
+
+    /**
+     * 默认选中
+     * @param role_id 角色id
+     * @return 返回体
+     */
+    @Transactional // 事务，防止服务器宕机数据安全性
+    @GetMapping("/default_check")
+    public Object defaultCheck(int role_id){
+        List<Integer> defaultChecked = authorityService.getDefaultChecked(role_id);
+        return Result.success(defaultChecked);
+    }
+
 
 }

@@ -1,20 +1,23 @@
 package cn.mrcsh;
 
-import cn.hutool.http.HttpRequest;
-import cn.hutool.http.HttpUtil;
-import cn.mrcsh.Entity.Employee;
-import cn.mrcsh.Util.ReflectUtil;
+import cn.mrcsh.Entity.Authority;
+import cn.mrcsh.Entity.Result;
+import cn.mrcsh.Entity.TreeNode;
+import cn.mrcsh.Service.Impl.AuthorityService;
+import cn.mrcsh.Util.TreeUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.coyote.Request;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
-//@SpringBootTest
+@SpringBootTest
 @Slf4j
 class EmManagementApplicationTests {
-
+    @Autowired
+    AuthorityService service;
 
     @Test
     void contextLoads(){
@@ -23,11 +26,7 @@ class EmManagementApplicationTests {
 
     @Test
     void simpleTest(){
-//        HttpRequest request = new HttpRequest("http://localhost:8848/test/test2");
-//        Map<String,String> map = new HashMap<>();
-//        map.put("user","admin");
-//        request.addHeaders(map);
-//        System.out.println(request.execute().body());
+
     }
 
 }

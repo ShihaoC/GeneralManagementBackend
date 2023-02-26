@@ -154,6 +154,19 @@
             <version>5.12.1</version>
         </dependency>
 
+        <!-- simbot Spring Boot Starter -->
+        <dependency>
+            <groupId>love.forte.simbot.boot</groupId>
+            <artifactId>simboot-core-spring-boot-starter</artifactId>
+            <version>3.0.0-RC</version>
+        </dependency>
+        <!-- mirai组件 -->
+        <dependency>
+            <groupId>love.forte.simbot.component</groupId>
+            <artifactId>simbot-component-mirai-core</artifactId>
+            <version>3.0.0.0-beta.6</version>
+        </dependency>
+
     </dependencies>
 
     <build>

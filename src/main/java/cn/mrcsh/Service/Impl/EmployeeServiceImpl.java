@@ -127,4 +127,34 @@ public class EmployeeServiceImpl implements EmployeeService {
     public Result import_excel(MultipartFile file) {
         return null;
     }
+
+    @Override
+    public Result update_statue(String statue, int em_id) {
+        Employee employee = mapper.selectOne(new QueryWrapper<Employee>().eq("id", em_id));
+        String message = "";
+        if(statue.equals("签到")){
+            if(!"已签到".equals(employee.getStatue()) && !"已经签退".equals(employee.getStatue())){
+                employee.setStatue("已签到");
+                message = "成功";
+            }else {
+                message = "已经签到";
+            }
+
+        }else if(statue.equals("签退")){
+            if(!"已经签退".equals(employee.getStatue()) && "已签到".equals(employee.getStatue())){
+                employee.setStatue("已经签退");
+                message = "成功";
+            }else {
+                message = "已经签退或没有签到";
+            }
+
+        }
+
+        mapper.update(employee, new QueryWrapper<Employee>().eq("id", em_id));
+        return Result.success(message);
+    }
+
+    public Employee getSimpleByQQ(String qq){
+        return mapper.selectOne(new QueryWrapper<Employee>().eq("bind_qq",qq));
+    }
 }

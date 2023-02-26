@@ -19,4 +19,7 @@ public class Authority {
     private String path;
     @TableField("enable")
     private boolean enable;
+    @TableField("type")
+    private String type;
+
 }

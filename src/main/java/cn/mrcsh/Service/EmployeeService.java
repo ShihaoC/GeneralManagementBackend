@@ -24,4 +24,6 @@ public interface EmployeeService {
     Result batch_Delete(List<Employee> list);
 
     Result import_excel(MultipartFile file);
+
+    Result update_statue(String statue,int em_id);
 }

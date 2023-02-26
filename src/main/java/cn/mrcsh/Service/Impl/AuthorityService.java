@@ -5,13 +5,16 @@ import cn.mrcsh.Mapper.AuthorityMapper;
 import cn.mrcsh.Mapper.RoleConnectMapper;
 import cn.mrcsh.Mapper.RoleMapper;
 import cn.mrcsh.Mapper.UserMapper;
+import cn.mrcsh.Util.TreeUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -38,25 +41,95 @@ public class AuthorityService {
         return Result.success(roleConnectMapper.insert(connect));
     }
 
-    public Result update(List<Authority> list, int role_id) {
-        AtomicInteger result = new AtomicInteger();
-        list.forEach((e)->{
-            log.info("role_id::"+role_id);
-            log.info("authority_id"+e.getId()+"\t"+e.getValue());
-            RoleConnect connect = roleConnectMapper.selectOne(new QueryWrapper<RoleConnect>().eq("role_id",role_id).eq("authority_id",e.getId()));
-            if(e.isEnable()){
-                connect.setEnable(true);
-            }else {
-                connect.setEnable(false);
-            }
-            roleConnectMapper.update(connect,new QueryWrapper<RoleConnect>().eq("role_id",role_id).eq("authority_id",e.getId()));
-        });
-        return Result.success(result.get());
+    /**
+     * 修改角色权限
+     *
+     * @param authority_ids 权限ids
+     * @param role_id       角色id
+     * @return true/false
+     */
+    public Result update(List<Integer> authority_ids, int role_id) {
+        for (Integer authorityId : authority_ids) {
+            log.info("" + authorityId);
+            roleConnectMapper.delete(new QueryWrapper<RoleConnect>().eq("role_id", role_id));
+        }
+
+        for (Integer authorityId : authority_ids) {
+            RoleConnect connect = new RoleConnect();
+            connect.setEnable(true);
+            connect.setAuthority_id(authorityId);
+            connect.setRole_id(role_id);
+            roleConnectMapper.insert(connect);
+        }
+        return null;
     }
 
 
-    public Result selectAll(int role_id) {
-        List<Authority> authorities = roleConnectMapper.list(role_id);
-        return Result.success(authorities);
+    /**
+     * 获取树形结构
+     *
+     * @param role_id role_id
+     * @return 树形结构
+     */
+    public List<TreeNode> selectAll(int role_id) {
+        List<TreeNode> treeNodes = new ArrayList<>();
+        List<Authority> authorities = selectList();
+        List<Authority> authorities1 = selectAuth(1);
+        for (Authority a : authorities1) {
+            for (Authority a1 : authorities) {
+                if (a.getName().equals(a1.getName())) {
+                    a1.setEnable(true);
+                    break;
+                }
+            }
+        }
+        for (Authority authority : authorities) {
+            treeNodes.add(new TreeNode(authority.getId(), authority.getLevel(), authority.getName(), authority.isEnable()));
+        }
+        TreeUtil treeUtil = new TreeUtil(treeNodes);
+        List<TreeNode> treeNodes1 = treeUtil.buildTree();
+        return treeNodes1;
+    }
+
+
+    public List<Authority> selectList() {
+        return authorityMapper.selectList(null);
+    }
+
+
+    public List<Authority> selectAuth(int role_id) {
+        List<RoleConnect> roleId = roleConnectMapper.selectList(new QueryWrapper<RoleConnect>().eq("role_id", role_id));
+        List<Integer> collect = roleId.stream().map(e -> e.getAuthority_id()).collect(Collectors.toList());
+        List<Authority> authorities = new ArrayList<>();
+        for (Integer integer : collect) {
+            authorities.add(authorityMapper.selectOne(new QueryWrapper<Authority>().eq("id", integer)));
+        }
+        return authorities;
+    }
+
+    /**
+     * 获取默认选中状态
+     *
+     * @param role_id 角色id
+     * @return authorityIds
+     */
+    public List<Integer> getDefaultChecked(int role_id) {
+        List<Authority> authorities = selectList();
+        List<Authority> authorities1 = selectAuth(role_id);
+        for (Authority a : authorities1) {
+            for (Authority a1 : authorities) {
+                if (a.getName().equals(a1.getName())) {
+                    a1.setEnable(true);
+                    break;
+                }
+            }
+        }
+        List<Integer> role_ids = new ArrayList<>();
+        for (Authority authority : authorities) {
+            if (authority.isEnable() && authority.getType().equals("2") || authority.getValue().equals("index")) {
+                role_ids.add(authority.getId());
+            }
+        }
+        return role_ids;
     }
 }

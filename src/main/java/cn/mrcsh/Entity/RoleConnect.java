@@ -1,13 +1,15 @@
 package cn.mrcsh.Entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
 @TableName("sys_role_connect")
 @Data
 public class RoleConnect {
-    @TableField("id")
+    @TableId(value = "id",type = IdType.AUTO)
     private Integer id;
     @TableField("role_id")
     private Integer role_id;

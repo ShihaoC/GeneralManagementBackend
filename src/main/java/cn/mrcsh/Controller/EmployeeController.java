@@ -117,4 +117,9 @@ public class EmployeeController {
     public Object batch_Delete(@RequestBody List<Employee> list){
         return service.batch_Delete(list);
     }
+
+    @GetMapping("/login")
+    public Object login(String statue,int em_id){
+        return service.update_statue(statue, em_id);
+    }
 }
