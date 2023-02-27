@@ -2,6 +2,7 @@ package cn.mrcsh.Service.Impl;
 
 import cn.mrcsh.Entity.Factory.PagesFactory;
 import cn.mrcsh.Entity.Result;
+import cn.mrcsh.Entity.Role;
 import cn.mrcsh.Entity.User;
 import cn.mrcsh.Enum.ROLE;
 import cn.mrcsh.Mapper.RoleMapper;
@@ -19,6 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -35,6 +37,7 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
+
 
     /**
      * 登录方法
@@ -81,7 +84,9 @@ public class UserServiceImpl implements UserService {
 
         user.setRole("2");
         user.setImage_url("https://csh-test1.oss-cn-beijing.aliyuncs.com/user-fill.png");
-        user.setDepartment("DEFAULT");
+        if(user.getDepartment() == null){
+            user.setDepartment("DEFAULT");
+        }
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         user.setNick_name("nick");
         int insert = mapper.insert(user);
@@ -99,13 +104,27 @@ public class UserServiceImpl implements UserService {
         wrapper
                 .like("username", Objects.requireNonNull(search));
         Page<User> userPage1 = null;
+        List<Role> roles = roleMapper.selectList(null);
+
+        List<User> users;
+
         try {
             userPage1 = mapper.selectPage(userPage, wrapper);
+            users = userPage.getRecords();
+            for (User user : users) {
+                for (Role role : roles) {
+                    if(Integer.parseInt(user.getRole()) == role.getId()){
+                        user.setRole(role.getNick());
+                        break;
+                    }
+                }
+            }
+
         } catch (Exception e) {
             return Result.fail(e.getMessage());
         }
         if(userPage1 != null){
-            return Result.success(new PagesFactory<>().getInstance(userPage1.getCurrent(), userPage1.getTotal(), userPage1.getRecords()));
+            return Result.success(new PagesFactory<>().getInstance(userPage1.getCurrent(), userPage1.getTotal(), users));
         }else {
             return null;
         }
@@ -194,6 +213,12 @@ public class UserServiceImpl implements UserService {
     @Override
     public User getSimple(int id) {
         return mapper.selectOne(new QueryWrapper<User>().eq("id", id));
+    }
+
+    @Override
+    public int batch_Delete(List<User> users) {
+        List<Integer> userids = users.stream().map(User::getId).collect(Collectors.toList());
+        return mapper.deleteBatchIds(userids);
     }
 
 

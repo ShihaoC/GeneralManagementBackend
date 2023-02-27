@@ -11,6 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.List;
 
 /**
  * 用户管理
@@ -39,8 +40,8 @@ public class UserController {
      * @param id id
      * @return <T>
      */
-    @GetMapping("/user_delete")
-    public Object delete(int id){
+    @GetMapping("/user_delete/{id}")
+    public Object delete(@PathVariable int id){
         return service.delete(id);
     }
 
@@ -67,12 +68,12 @@ public class UserController {
     /**
      * 修改用户状态
      * @param id id
-     * @param flag 状态 true/false
+     * @param statue 状态 true/false
      * @return <T>
      */
-    @GetMapping("/user_update_statue")
-    public Object update_statue(int id,Boolean flag){
-        return service.update_statue(id,flag);
+    @GetMapping("/user_update_statue/{id}")
+    public Object update_statue(@PathVariable int id,boolean statue){
+        return service.update_statue(id,statue);
     }
 
     @GetMapping("/user_export_excel")
@@ -94,5 +95,11 @@ public class UserController {
     public Result getHead(@PathVariable int id){
         User simple = service.getSimple(id);
         return Result.success(simple.getImage_url());
+    }
+
+    @PostMapping("/batch_Delete")
+    public Result batch_Delete(@RequestBody List<User> users){
+        int result = service.batch_Delete(users);
+        return Result.success(result);
     }
 }

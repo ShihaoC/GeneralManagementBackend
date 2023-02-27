@@ -22,6 +22,11 @@ public class RoleController {
     public Object list(int page,String search){
         return service.selectList(page, search);
     }
+    @GetMapping("/all")
+    public Object getAll(){
+        List<Role> roles = service.selectAll();
+        return Result.success(roles);
+    }
 
     @PostMapping("/insert")
     @PreAuthorize("hasAuthority('system:role:insert')")

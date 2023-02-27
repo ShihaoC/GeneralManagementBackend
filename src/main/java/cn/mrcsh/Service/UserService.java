@@ -4,6 +4,7 @@ import cn.mrcsh.Entity.Result;
 import cn.mrcsh.Entity.User;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 public interface UserService {
     User login(User user);
@@ -24,4 +25,5 @@ public interface UserService {
 
     User getSimple(int id);
 
+    int batch_Delete(List<User> users);
 }

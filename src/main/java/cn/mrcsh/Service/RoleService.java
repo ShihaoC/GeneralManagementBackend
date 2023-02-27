@@ -17,4 +17,5 @@ public interface RoleService {
 
     int batch_Delete(List<Role> list);
 
+    List<Role> selectAll();
 }

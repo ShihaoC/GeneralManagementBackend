@@ -71,4 +71,9 @@ public class RoleServiceImpl implements RoleService {
         List<Integer> role_ids = list.stream().map(Role::getId).collect(Collectors.toList());
         return mapper.deleteBatchIds(role_ids);
     }
+
+    @Override
+    public List<Role> selectAll() {
+        return mapper.selectList(null);
+    }
 }

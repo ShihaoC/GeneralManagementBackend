@@ -37,6 +37,7 @@ public class EmployeeController {
         employee.setClockin(false);
         employee.setWork_num(0);
         employee.setQuit(false);
+        employee.setStatue("");
         return service.insert(employee);
     }
 

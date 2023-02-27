@@ -34,6 +34,13 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
         String jwt = JwtUtil.generateToken(authentication.getName());
         APIInvokeCount.AllLoginCount++;
         User user = mapper.selectOne(new QueryWrapper<User>().eq("username", authentication.getName()));
+        if(!user.isUsed()){
+            Result result = Result.success("账户停用");
+            sos.write(JSONUtil.toJsonStr(result).getBytes());
+            sos.flush();
+            sos.close();
+            return;
+        }
         response.setHeader("Authorization",jwt);
         response.setHeader("image",user.getImage_url());
         response.setHeader("userid",String.valueOf(user.getId()));
