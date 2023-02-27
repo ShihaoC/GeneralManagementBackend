@@ -2,10 +2,15 @@ package cn.mrcsh.Controller;
 
 import cn.mrcsh.Annotations.APIMonitor;
 import cn.mrcsh.Entity.Department;
+import cn.mrcsh.Entity.Result;
 import cn.mrcsh.Service.DepartmentService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
 
 /**
  * 岗位接口
@@ -80,6 +85,19 @@ public class DepartmentController {
     @APIMonitor(value = "insert_department",parentAPI = "dep")
     @PostMapping(value = "/insert_department")
     public Object insertDepartment(@RequestBody Department department){
+        department.setDate(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
         return service.insert(department);
+    }
+
+    /**
+     * 批量删除
+     * @param departments 对象集合
+     * @return 通用返回提
+     */
+    @APIMonitor(value = "batch_Delete",parentAPI = "dep")
+    @PostMapping(value = "/batch_Delete")
+    public Object batch_delete(@RequestBody List<Department> departments){
+        int i = service.batch_Delete(departments);
+        return Result.success(i);
     }
 }

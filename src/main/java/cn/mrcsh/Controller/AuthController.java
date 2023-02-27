@@ -90,6 +90,4 @@ public class AuthController {
         List<Integer> defaultChecked = authorityService.getDefaultChecked(role_id);
         return Result.success(defaultChecked);
     }
-
-
 }

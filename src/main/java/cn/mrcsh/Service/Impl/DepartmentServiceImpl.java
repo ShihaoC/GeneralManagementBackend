@@ -14,6 +14,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Repository
 @Slf4j
@@ -100,5 +101,11 @@ public class DepartmentServiceImpl implements DepartmentService {
             return Result.fail("查询出错");
         }
         return Result.success(new PagesFactory<>().getInstance(departmentPage.getCurrent(), departmentPage.getTotal(), departments));
+    }
+
+    @Override
+    public int batch_Delete(List<Department> departments) {
+        List<Integer> collect = departments.stream().map(Department::getId).collect(Collectors.toList());
+        return mapper.deleteBatchIds(collect);
     }
 }

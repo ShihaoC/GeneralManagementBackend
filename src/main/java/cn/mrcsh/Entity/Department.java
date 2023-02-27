@@ -49,5 +49,5 @@ public class Department {
      */
     @ExcelFieldName("创建日期")
     @TableField(value = "date")
-    private Date date;
+    private String date;
 }
