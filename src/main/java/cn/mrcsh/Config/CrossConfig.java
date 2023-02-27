@@ -17,6 +17,7 @@ public class CrossConfig implements WebMvcConfigurer {
         corsConfiguration.addAllowedOrigin("*");
         corsConfiguration.addAllowedMethod("*");
         corsConfiguration.addExposedHeader("Authorization");
+        corsConfiguration.addExposedHeader("image");
         return corsConfiguration;
     }
 

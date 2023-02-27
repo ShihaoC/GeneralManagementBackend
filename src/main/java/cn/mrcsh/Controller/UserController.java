@@ -1,11 +1,15 @@
 package cn.mrcsh.Controller;
 
+import cn.mrcsh.Entity.Result;
 import cn.mrcsh.Entity.User;
 import cn.mrcsh.Service.UserService;
+import cn.mrcsh.Util.OSSUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 /**
  * 用户管理
@@ -72,5 +76,11 @@ public class UserController {
     @GetMapping("/user_export_excel")
     public void export(HttpServletResponse response){
         service.export_excel(response);
+    }
+
+    @PostMapping("/uploadImage")
+    public Result upload(MultipartFile file) throws IOException {
+        String OSSUrl = OSSUtil.uploadImage(file);
+        return null;
     }
 }

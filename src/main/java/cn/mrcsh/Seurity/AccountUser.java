@@ -11,9 +11,7 @@ import org.springframework.util.Assert;
 import java.util.Collection;
 @Data
 public class AccountUser implements UserDetails {
-
     private Integer id;
-
     private static final long serialVersionUID = 570L;
     private static final Log logger = LogFactory.getLog(User.class);
     private String password;

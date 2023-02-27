@@ -79,7 +79,7 @@ public class UserServiceImpl implements UserService {
             return Result.fail("已经存在");
         }
 
-        user.setRole(ROLE.STAFF.toString());
+        user.setRole("2");
         user.setDepartment("DEFAULT");
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         user.setNick_name("nick");

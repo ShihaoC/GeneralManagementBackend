@@ -46,9 +46,11 @@ public class UserDetailServiceImpl implements UserDetailsService {
         StringBuilder authority = new StringBuilder();
         User user = userMapper.selectOne(new QueryWrapper<User>().eq("id", userId));
         String role_id = user.getRole();
-        List<Role> roles = roleMapper.selectList(new QueryWrapper<Role>().eq("id", role_id));
+        List<Role> roles = roleMapper.selectList(new QueryWrapper<Role>().eq("id", role_id).eq("enable","1"));
         if (roles.size() > 0) {
             authority = new StringBuilder(roles.stream().map(e -> "ROLE_" + e.getRole_name()).collect(Collectors.joining(",")));
+        }else {
+            return null;
         }
 
         List<Authority> authorities = roleConnectMapper.list(Integer.parseInt(role_id));
