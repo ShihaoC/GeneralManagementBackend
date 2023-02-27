@@ -89,4 +89,10 @@ public class UserController {
         simple.setImage_url(OSSUrl);
         return service.update(simple);
     }
+
+    @GetMapping("/headImage/{id}")
+    public Result getHead(@PathVariable int id){
+        User simple = service.getSimple(id);
+        return Result.success(simple.getImage_url());
+    }
 }
