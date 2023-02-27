@@ -191,8 +191,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User getSimple(String username) {
-        return mapper.selectOne(new QueryWrapper<User>().eq("username", username));
+    public User getSimple(int id) {
+        return mapper.selectOne(new QueryWrapper<User>().eq("id", id));
     }
 
 

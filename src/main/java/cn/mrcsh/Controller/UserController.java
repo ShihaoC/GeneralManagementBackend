@@ -4,6 +4,9 @@ import cn.mrcsh.Entity.Result;
 import cn.mrcsh.Entity.User;
 import cn.mrcsh.Service.UserService;
 import cn.mrcsh.Util.OSSUtil;
+import com.aliyun.oss.OSS;
+import jdk.nashorn.internal.ir.ReturnNode;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -16,6 +19,7 @@ import java.io.IOException;
  */
 @RestController
 @RequestMapping("/user")
+@Slf4j
 public class UserController {
     @Autowired
     private UserService service;
@@ -78,9 +82,13 @@ public class UserController {
         service.export_excel(response);
     }
 
-    @PostMapping("/uploadImage")
-    public Result upload(MultipartFile file) throws IOException {
+    @PostMapping("/uploadImage/{id}")
+    public Result upload(MultipartFile file,@PathVariable int id) throws IOException {
         String OSSUrl = OSSUtil.uploadImage(file);
-        return null;
+        log.info(OSSUrl);
+        User simple = service.getSimple(id);
+        OSSUtil.delete(simple.getImage_url());
+        simple.setImage_url(OSSUrl);
+        return service.update(simple);
     }
 }

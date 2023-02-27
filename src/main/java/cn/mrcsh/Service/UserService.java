@@ -22,6 +22,6 @@ public interface UserService {
 
     void export_excel(HttpServletResponse response);
 
-    User getSimple(String username);
+    User getSimple(int id);
 
 }

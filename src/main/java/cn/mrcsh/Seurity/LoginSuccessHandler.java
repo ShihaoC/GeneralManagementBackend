@@ -36,6 +36,7 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
         User user = mapper.selectOne(new QueryWrapper<User>().eq("username", authentication.getName()));
         response.setHeader("Authorization",jwt);
         response.setHeader("image",user.getImage_url());
+        response.setHeader("userid",String.valueOf(user.getId()));
         Result result = Result.success("登录成功");
         sos.write(JSONUtil.toJsonStr(result).getBytes());
         sos.flush();
