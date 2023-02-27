@@ -2,12 +2,14 @@ package cn.mrcsh.Util;
 
 import com.aliyun.oss.OSS;
 import com.aliyun.oss.OSSClientBuilder;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.UUID;
 
+@Slf4j
 public class OSSUtil {
     public static final String ALI_DOMAIN = "https://csh-test1.oss-cn-beijing.aliyuncs.com/";
     public static final String endpoint = "http://oss-cn-beijing.aliyuncs.com";
@@ -32,7 +34,11 @@ public class OSSUtil {
         return ALI_DOMAIN+fileName;
     }
     public static void delete(String url){
-        if(url != null){
+        log.info(url);
+        if(url != null && !url.equals("https://csh-test1.oss-cn-beijing.aliyuncs.com/user-fill.png")){
+            url = url.substring(url.indexOf("//") + 2);
+            url = url.substring(url.indexOf("/") + 1);
+            log.info(url);
             OSS ossClient = new OSSClientBuilder().build(endpoint, accessKeyId, accessKeySecret);
             ossClient.deleteObject("csh-test1",url);
             ossClient.shutdown();

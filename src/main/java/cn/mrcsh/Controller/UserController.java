@@ -4,8 +4,6 @@ import cn.mrcsh.Entity.Result;
 import cn.mrcsh.Entity.User;
 import cn.mrcsh.Service.UserService;
 import cn.mrcsh.Util.OSSUtil;
-import com.aliyun.oss.OSS;
-import jdk.nashorn.internal.ir.ReturnNode;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
