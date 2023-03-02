@@ -1,7 +1,9 @@
 package cn.mrcsh.Aop;
 
 import cn.mrcsh.Annotations.Log;
+import cn.mrcsh.Util.JwtUtil;
 import cn.mrcsh.Util.RedisUtil;
+import io.jsonwebtoken.Claims;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.*;
@@ -36,18 +38,20 @@ public class LogProxy {
         //***********************************************************************************
         String api = method.getAnnotation(Log.class).api(); // api名称
         String module = method.getAnnotation(Log.class).module(); // 模块名称
+        String username = ""; // 用户名
         Long currentTime = System.currentTimeMillis(); // 时间戳
         String token = request.getHeader("authorization"); // token 用JwtUtil解析token
         redisUtil.set(currentTime+":["+module+"("+api+")]",request.getHeader("authorization"));
         log.info(request.getHeader("authorization"));
-
-
-
-
-
-
-
-
+        Claims claims = null;
+        try {
+            claims = JwtUtil.checkToken(token);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        if(claims != null){
+            username = claims.getSubject();
+        }
 
 
         //***********************************************************************************
