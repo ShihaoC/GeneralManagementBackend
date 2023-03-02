@@ -1,5 +1,6 @@
 package cn.mrcsh.Controller;
 
+import cn.mrcsh.Annotations.Log;
 import cn.mrcsh.Cache.APIInvokeCount;
 import cn.mrcsh.Entity.Authority;
 import cn.mrcsh.Entity.Result;
@@ -39,6 +40,7 @@ public class TestController {
     private RoleConnectMapper mapper;
 
     @GetMapping("test1")
+    @Log(module = "Test",api = "test1")
     public Result test() {
         return Result.success("测试");
     }
