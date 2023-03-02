@@ -45,15 +45,12 @@ public class LogProxy {
         String ip = getIP(request); // 操作地址
         redisUtil.set(currentTime+":["+module+"("+api+")]",request.getHeader("authorization"));
         log.info(request.getHeader("authorization"));
-        Claims claims = null;
-        try {
-            claims = JwtUtil.checkToken(token);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-        if(claims != null){
-            username = claims.getSubject();
-        }
+
+
+
+
+
+
 
 
 
