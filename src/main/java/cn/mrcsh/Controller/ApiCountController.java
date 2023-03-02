@@ -18,21 +18,23 @@ import java.util.List;
 public class ApiCountController {
     /**
      * 获取所有API历史次数
+     *
      * @return
      */
-    @APIMonitor(value = "count",parentAPI = "api")
+    @APIMonitor(value = "count", parentAPI = "api")
     @GetMapping("/count")
-    public List<Integer> getApiCount(){
+    public List<Integer> getApiCount() {
         return APIInvokeCount.counts;
     }
 
     /**
      * 获取登录历史次数
+     *
      * @return
      */
-    @APIMonitor(value = "login",parentAPI = "api")
+    @APIMonitor(value = "login", parentAPI = "api")
     @GetMapping("/login")
-    public List<Integer> getLoginCount(){
+    public List<Integer> getLoginCount() {
         return APIInvokeCount.LoginCount;
     }
 }

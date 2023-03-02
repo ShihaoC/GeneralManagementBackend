@@ -34,11 +34,11 @@ public class OSSUtil {
         return ALI_DOMAIN+fileName;
     }
     public static void delete(String url){
-        log.info(url);
+//        log.info(url);
         if(url != null && !url.equals("https://csh-test1.oss-cn-beijing.aliyuncs.com/user-fill.png")){
             url = url.substring(url.indexOf("//") + 2);
             url = url.substring(url.indexOf("/") + 1);
-            log.info(url);
+//            log.info(url);
             OSS ossClient = new OSSClientBuilder().build(endpoint, accessKeyId, accessKeySecret);
             ossClient.deleteObject("csh-test1",url);
             ossClient.shutdown();

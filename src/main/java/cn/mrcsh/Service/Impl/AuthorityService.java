@@ -12,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
@@ -50,7 +52,7 @@ public class AuthorityService {
      */
     public Result update(List<Integer> authority_ids, int role_id) {
         for (Integer authorityId : authority_ids) {
-            log.info("" + authorityId);
+//            log.info("" + authorityId);
             roleConnectMapper.delete(new QueryWrapper<RoleConnect>().eq("role_id", role_id));
         }
 
@@ -74,15 +76,19 @@ public class AuthorityService {
     public List<TreeNode> selectAll(int role_id) {
         List<TreeNode> treeNodes = new ArrayList<>();
         List<Authority> authorities = selectList();
-        List<Authority> authorities1 = selectAuth(1);
+        List<Authority> authorities1 = selectAuth(role_id);
         for (Authority a : authorities1) {
             for (Authority a1 : authorities) {
                 if (a.getName().equals(a1.getName())) {
                     a1.setEnable(true);
+//                    log.info(a1.toString());
+//                    log.info(a.getName());
                     break;
                 }
             }
         }
+//        log.info(Arrays.toString(authorities.toArray()));
+//        log.info(Arrays.toString(authorities1.toArray()));
         for (Authority authority : authorities) {
             treeNodes.add(new TreeNode(authority.getId(), authority.getLevel(), authority.getName(), authority.isEnable()));
         }

@@ -28,20 +28,22 @@ public class SystemServiceImpl implements SystemService {
 
         // 总的物理内存
         String totalMemorySize = new DecimalFormat("#.##")
-                .format(osmxb.getTotalPhysicalMemorySize() / 1024.0 / 1024 / 1024) + "G";
+                .format(osmxb.getTotalPhysicalMemorySize() / 1024.0 / 1024 / 1024);
         // 剩余的物理内存
         String freePhysicalMemorySize = new DecimalFormat("#.##")
-                .format(osmxb.getFreePhysicalMemorySize() / 1024.0 / 1024 / 1024) + "G";
+                .format(osmxb.getFreePhysicalMemorySize() / 1024.0 / 1024 / 1024);
         // 已使用的物理内存
         String usedMemory = new DecimalFormat("#.##").format(
-                (osmxb.getTotalPhysicalMemorySize() - osmxb.getFreePhysicalMemorySize()) / 1024.0 / 1024 / 1024)
-                + "G";
+                (osmxb.getTotalPhysicalMemorySize() - osmxb.getFreePhysicalMemorySize()) / 1024.0 / 1024 / 1024);
 
         List<Memory> memories = new ArrayList<>();
-        memories.add(new Memory("总内存",totalMemorySize));
-        memories.add(new Memory("已使用内存",usedMemory));
-        memories.add(new Memory("剩余内存",freePhysicalMemorySize));
-//        memories.add(new Memory("内存占用率",String.valueOf(Double.valueOf(usedMemory)/Double.valueOf(totalMemorySize))));
+        double used = 1.0 - Double.valueOf(freePhysicalMemorySize) / Double.valueOf(totalMemorySize);
+        used*=100;
+        String usedResult = String.valueOf(used).substring(0,String.valueOf(used).indexOf("."));
+        memories.add(new Memory("总内存",totalMemorySize+"G"));
+        memories.add(new Memory("已使用内存",usedMemory+"G"));
+        memories.add(new Memory("剩余内存",freePhysicalMemorySize+"G"));
+        memories.add(new Memory("内存占用率",usedResult+"%"));
         return memories;
     }
 

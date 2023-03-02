@@ -23,10 +23,10 @@ public class MessageEvent {
     @Filter(targets = @Filter.Targets(groups = {"622699505"}))
     public void onMessage(MiraiGroupMessageEvent event) {
         String context = event.getMessageContent().getPlainText();
-        log.info(context + "\t" + event.getAuthor().getId());
+//        log.info(context + "\t" + event.getAuthor().getId());
         String s = context.replaceAll("#", " ");
         String[] args = s.split(" ");
-        log.info(Arrays.toString(args));
+//        log.info(Arrays.toString(args));
         if (args.length == 1) {
             switch (args[0]) {
                 case "签到":

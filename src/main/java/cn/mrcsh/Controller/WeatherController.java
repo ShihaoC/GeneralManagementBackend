@@ -24,10 +24,11 @@ public class WeatherController {
 
     /**
      * 天气接口
+     *
      * @return <T>
      */
     @GetMapping("/weather")
-    public Object getWeather(HttpServletRequest request){
+    public Object getWeather(HttpServletRequest request) {
         weather weather = service.getWeather(request);
         return Result.success(weather.getNow());
     }

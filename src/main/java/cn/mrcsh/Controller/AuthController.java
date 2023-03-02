@@ -56,6 +56,7 @@ public class AuthController {
 
     /**
      * 获取权限列表
+     *
      * @param role_id @de
      * @return 返回体
      */
@@ -67,26 +68,26 @@ public class AuthController {
     }
 
     /**
-     *
      * @param authority_ids 权限ids
-     * @param role_id 角色id
+     * @param role_id       角色id
      * @return 返回体
      */
     @PostMapping("/update")
     @PreAuthorize("hasAuthority('system:authority:update')")
-    public Object update(@RequestBody List<Integer> authority_ids, int role_id){
+    public Object update(@RequestBody List<Integer> authority_ids, int role_id) {
         return authorityService.update(authority_ids, role_id);
     }
 
     /**
      * 默认选中
+     *
      * @param role_id 角色id
      * @return 返回体
      */
     @Transactional // 事务，防止服务器宕机数据安全性
     @GetMapping("/default_check")
     @PreAuthorize("hasAuthority('system:authority:query')")
-    public Object defaultCheck(int role_id){
+    public Object defaultCheck(int role_id) {
         List<Integer> defaultChecked = authorityService.getDefaultChecked(role_id);
         return Result.success(defaultChecked);
     }

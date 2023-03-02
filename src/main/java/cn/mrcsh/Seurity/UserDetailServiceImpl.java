@@ -42,7 +42,7 @@ public class UserDetailServiceImpl implements UserDetailsService {
     }
 
     public List<GrantedAuthority> getUserAuthority(Integer userId) {
-        log.info("ID" + userId);
+//        log.info("ID" + userId);
         StringBuilder authority = new StringBuilder();
         User user = userMapper.selectOne(new QueryWrapper<User>().eq("id", userId));
         String role_id = user.getRole();
@@ -59,7 +59,7 @@ public class UserDetailServiceImpl implements UserDetailsService {
                 authority.append(",").append(e.getValue());
             }
         }
-        log.info("AUTH:::" + authority);
+//        log.info("AUTH:::" + authority);
         return AuthorityUtils.commaSeparatedStringToAuthorityList(authority.toString());
     }
 }

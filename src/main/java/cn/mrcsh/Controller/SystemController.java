@@ -23,19 +23,21 @@ public class SystemController {
 
     /**
      * 获取CPU信息
+     *
      * @return CPU信息
      */
     @GetMapping("/cpu")
-    public List<CPU> getCpus(){
+    public List<CPU> getCpus() {
         return service.getCPUInfo();
     }
 
     /**
      * 获取内存信息
+     *
      * @return 内存信息
      */
     @GetMapping("/mem")
-    public List<Memory> getMem(){
+    public List<Memory> getMem() {
         return service.getMemoryInfo();
     }
 }

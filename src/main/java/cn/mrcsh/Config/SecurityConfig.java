@@ -38,7 +38,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    BCryptPasswordEncoder bCryptPasswordEncoder(){
+    BCryptPasswordEncoder bCryptPasswordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
@@ -67,13 +67,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(URL_WHITELIST).permitAll()
                 .anyRequest().authenticated()
 
-        // 异常处理器
+                // 异常处理器
                 .and()
                 .exceptionHandling()
                 .authenticationEntryPoint(authenticationEntryPoint)
                 .accessDeniedHandler(accessDeniedHandler)
 
-        // 配置自定义过滤器
+                // 配置自定义过滤器
                 .and()
                 .addFilter(jwtAuthenticationFilter())
         ;

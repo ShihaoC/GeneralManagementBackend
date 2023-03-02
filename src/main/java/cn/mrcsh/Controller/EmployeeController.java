@@ -29,7 +29,7 @@ public class EmployeeController {
      * @param employee 员工对象
      * @return 通用返回体
      */
-    @APIMonitor(api = "insert_employee",parentAPI = "employee")
+    @APIMonitor(api = "insert_employee", parentAPI = "employee")
     @PostMapping(value = "/insert_employee")
     @PreAuthorize("hasAuthority('system:employee:insert')")
     public Object insertEmployee(@RequestBody Employee employee) {
@@ -96,8 +96,8 @@ public class EmployeeController {
     }
 
     /**
-     *
      * 导出EXCEL
+     *
      * @param response
      */
     @APIMonitor(api = "export_excel", parentAPI = "employee")
@@ -109,18 +109,19 @@ public class EmployeeController {
 
     /**
      * 批量删除
+     *
      * @param list
      * @return
      */
     @APIMonitor(api = "batch_Delete", parentAPI = "employee")
     @PostMapping(value = "/batch_Delete")
     @PreAuthorize("hasAuthority('system:employee:betch')")
-    public Object batch_Delete(@RequestBody List<Employee> list){
+    public Object batch_Delete(@RequestBody List<Employee> list) {
         return service.batch_Delete(list);
     }
 
     @GetMapping("/login")
-    public Object login(String statue,int em_id){
+    public Object login(String statue, int em_id) {
         return service.update_statue(statue, em_id);
     }
 }

@@ -149,6 +149,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Result update(User user) {
+//        log.info(user.toString());
         QueryWrapper<User> wrapper = new QueryWrapper<>();
         wrapper.eq("id",user.getId());
         int result;

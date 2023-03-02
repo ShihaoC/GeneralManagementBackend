@@ -13,5 +13,5 @@ public class Memory {
     /**
      * 值
      */
-    private String value;
+    private Object value;
 }

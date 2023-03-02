@@ -11,7 +11,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 public class CrossConfig implements WebMvcConfigurer {
 
-    private CorsConfiguration buildConfig(){
+    private CorsConfiguration buildConfig() {
         CorsConfiguration corsConfiguration = new CorsConfiguration();
         corsConfiguration.addAllowedHeader("*");
         corsConfiguration.addAllowedOrigin("*");
@@ -23,9 +23,9 @@ public class CrossConfig implements WebMvcConfigurer {
     }
 
     @Bean
-    public CorsFilter corsFilter(){
+    public CorsFilter corsFilter() {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**",buildConfig());
+        source.registerCorsConfiguration("/**", buildConfig());
         return new org.springframework.web.filter.CorsFilter(source);
     }
 
@@ -33,7 +33,7 @@ public class CrossConfig implements WebMvcConfigurer {
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
                 .allowedOrigins("*")
-                .allowedMethods("GET","POST","DELETE","PUT")
+                .allowedMethods("GET", "POST", "DELETE", "PUT")
                 .maxAge(3600);
     }
 }

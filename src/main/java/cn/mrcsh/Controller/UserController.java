@@ -6,6 +6,7 @@ import cn.mrcsh.Service.UserService;
 import cn.mrcsh.Util.OSSUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -25,66 +26,78 @@ public class UserController {
 
     /**
      * 查询用户
+     *
      * @param search 名字
-     * @param page 页数
+     * @param page   页数
      * @return <T>
      */
 
     @GetMapping("/user_query")
-    public Object user_query(String search,int page){
+    @PreAuthorize("hasAuthority('system:user:query')")
+    public Object user_query(String search, int page) {
         return service.selectList(search, page);
     }
 
     /**
      * 根据id删除用户信息
+     *
      * @param id id
      * @return <T>
      */
     @GetMapping("/user_delete/{id}")
-    public Object delete(@PathVariable int id){
+    @PreAuthorize("hasAuthority('system:user:delete')")
+    public Object delete(@PathVariable int id) {
         return service.delete(id);
     }
 
     /**
      * 修改员工信息
+     *
      * @param user 用户对象
      * @return <T>
      */
     @PostMapping("/user_update")
-    public Object update(@RequestBody User user){
+    @PreAuthorize("hasAuthority('system:user:update')")
+    public Object update(@RequestBody User user) {
         return service.update(user);
     }
 
     /**
      * 添加用户信息
+     *
      * @param user 用户对象
      * @return <T>
      */
     @PostMapping("/user_insert")
-    public Object insert(@RequestBody User user){
+    @PreAuthorize("hasAuthority('system:user:insert')")
+    public Object insert(@RequestBody User user) {
         return service.insert(user);
     }
 
     /**
      * 修改用户状态
-     * @param id id
+     *
+     * @param id     id
      * @param statue 状态 true/false
      * @return <T>
      */
     @GetMapping("/user_update_statue/{id}")
-    public Object update_statue(@PathVariable int id,boolean statue){
-        return service.update_statue(id,statue);
+    @PreAuthorize("hasAuthority('system:user:update')")
+    public Object update_statue(@PathVariable int id, boolean statue) {
+        return service.update_statue(id, statue);
     }
 
     @GetMapping("/user_export_excel")
-    public void export(HttpServletResponse response){
+    @PreAuthorize("hasAuthority('system:user:export')")
+    public void export(HttpServletResponse response) {
         service.export_excel(response);
     }
 
     @PostMapping("/uploadImage/{id}")
-    public Result upload(MultipartFile file,@PathVariable int id) throws IOException {
+    public Result upload(MultipartFile file, @PathVariable int id) throws IOException {
+        log.info("upload:" + id);
         String OSSUrl = OSSUtil.uploadImage(file);
-        log.info(OSSUrl);
+//        log.info(OSSUrl);
         User simple = service.getSimple(id);
         OSSUtil.delete(simple.getImage_url());
         simple.setImage_url(OSSUrl);
@@ -92,13 +105,14 @@ public class UserController {
     }
 
     @GetMapping("/headImage/{id}")
-    public Result getHead(@PathVariable int id){
+    public Result getHead(@PathVariable int id) {
         User simple = service.getSimple(id);
         return Result.success(simple.getImage_url());
     }
 
     @PostMapping("/batch_Delete")
-    public Result batch_Delete(@RequestBody List<User> users){
+    @PreAuthorize("hasAuthority('system:user:delete')")
+    public Result batch_Delete(@RequestBody List<User> users) {
         int result = service.batch_Delete(users);
         return Result.success(result);
     }

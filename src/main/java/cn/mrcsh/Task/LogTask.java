@@ -19,7 +19,7 @@ public class LogTask implements CommandLineRunner {
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
-                log.info(String.valueOf(APIInvokeCount.AllCount));
+//                log.info(String.valueOf(APIInvokeCount.AllCount));
             }
         }).start();
     }
