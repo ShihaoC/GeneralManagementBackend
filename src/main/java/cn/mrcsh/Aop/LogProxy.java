@@ -32,12 +32,25 @@ public class LogProxy {
         Object res;
         MethodSignature signature = (MethodSignature) point.getSignature();
         Method method = signature.getMethod();
-        String api = method.getAnnotation(Log.class).api();
-        String module = method.getAnnotation(Log.class).module();
-        Long currentTime = System.currentTimeMillis();
         HttpServletRequest request = ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder.getRequestAttributes())).getRequest();
-        log.info(request.getHeader("authorization"));
+        //***********************************************************************************
+        String api = method.getAnnotation(Log.class).api(); // api名称
+        String module = method.getAnnotation(Log.class).module(); // 模块名称
+        Long currentTime = System.currentTimeMillis(); // 时间戳
+        String token = request.getHeader("authorization"); // token 用JwtUtil解析token
         redisUtil.set(currentTime+":["+module+"("+api+")]",request.getHeader("authorization"));
+        log.info(request.getHeader("authorization"));
+
+
+
+
+
+
+
+
+
+
+        //***********************************************************************************
         res = point.proceed();
         return res;
     }
