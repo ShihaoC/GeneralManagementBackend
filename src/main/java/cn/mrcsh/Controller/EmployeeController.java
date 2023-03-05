@@ -1,6 +1,7 @@
 package cn.mrcsh.Controller;
 
 import cn.mrcsh.Annotations.APIMonitor;
+import cn.mrcsh.Annotations.Log;
 import cn.mrcsh.Entity.Employee;
 import cn.mrcsh.Service.EmployeeService;
 import lombok.extern.slf4j.Slf4j;
@@ -32,6 +33,7 @@ public class EmployeeController {
     @APIMonitor(api = "insert_employee", parentAPI = "employee")
     @PostMapping(value = "/insert_employee")
     @PreAuthorize("hasAuthority('system:employee:insert')")
+    @Log(module = "员工模块",api = "添加员工")
     public Object insertEmployee(@RequestBody Employee employee) {
         employee.setJoin_date(new Date(System.currentTimeMillis()));
         employee.setClockin(false);
@@ -78,6 +80,7 @@ public class EmployeeController {
     @APIMonitor(api = "delete_employee", parentAPI = "employee")
     @GetMapping(value = "/delete_employee")
     @PreAuthorize("hasAuthority('system:employee:delete')")
+    @Log(module = "员工模块",api = "删除员工")
     public Object delete(int id, String name) {
         return service.delete(id, name);
     }
@@ -91,6 +94,7 @@ public class EmployeeController {
     @APIMonitor(api = "update_employee", parentAPI = "employee")
     @PostMapping(value = "/update_employee")
     @PreAuthorize("hasAuthority('system:employee:update')")
+    @Log(module = "员工模块",api = "修改员工")
     public Object update(@RequestBody Employee employee) {
         return service.update(employee);
     }
@@ -103,6 +107,7 @@ public class EmployeeController {
     @APIMonitor(api = "export_excel", parentAPI = "employee")
     @GetMapping(value = "/export_excel")
     @PreAuthorize("hasAuthority('system:employee:export')")
+    @Log(module = "员工模块",api = "导出员工Excel")
     public void export(HttpServletResponse response) {
         service.export_Excel(response);
     }
@@ -116,10 +121,12 @@ public class EmployeeController {
     @APIMonitor(api = "batch_Delete", parentAPI = "employee")
     @PostMapping(value = "/batch_Delete")
     @PreAuthorize("hasAuthority('system:employee:betch')")
+    @Log(module = "员工模块",api = "批量删除员工")
     public Object batch_Delete(@RequestBody List<Employee> list) {
         return service.batch_Delete(list);
     }
 
+    @Log(module = "员工模块",api = "签到")
     @GetMapping("/login")
     public Object login(String statue, int em_id) {
         return service.update_statue(statue, em_id);

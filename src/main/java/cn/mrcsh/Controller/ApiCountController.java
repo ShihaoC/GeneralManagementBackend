@@ -1,6 +1,7 @@
 package cn.mrcsh.Controller;
 
 import cn.mrcsh.Annotations.APIMonitor;
+import cn.mrcsh.Annotations.Log;
 import cn.mrcsh.Cache.APIInvokeCount;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,7 +22,6 @@ public class ApiCountController {
      *
      * @return
      */
-    @APIMonitor(value = "count", parentAPI = "api")
     @GetMapping("/count")
     public List<Integer> getApiCount() {
         return APIInvokeCount.counts;
@@ -32,7 +32,6 @@ public class ApiCountController {
      *
      * @return
      */
-    @APIMonitor(value = "login", parentAPI = "api")
     @GetMapping("/login")
     public List<Integer> getLoginCount() {
         return APIInvokeCount.LoginCount;

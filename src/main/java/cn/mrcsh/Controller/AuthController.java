@@ -1,6 +1,7 @@
 package cn.mrcsh.Controller;
 
 import cn.mrcsh.Annotations.APIMonitor;
+import cn.mrcsh.Annotations.Log;
 import cn.mrcsh.Entity.Result;
 import cn.mrcsh.Entity.TreeNode;
 import cn.mrcsh.Entity.User;
@@ -29,17 +30,17 @@ public class AuthController {
     @Autowired
     private AuthorityService authorityService;
 
-    /**
-     * 登录接口
-     *
-     * @param user POST请求的参数
-     * @return 通用返回体
-     */
-    @APIMonitor(api = "login", parentAPI = "auth")
-    @PostMapping("/login")
-    public Object login(User user) {
-        return service.login(user);
-    }
+//    /**
+//     * 登录接口
+//     *
+//     * @param user POST请求的参数
+//     * @return 通用返回体
+//     */
+//    @APIMonitor(api = "login", parentAPI = "auth")
+//    @PostMapping("/login")
+//    public Object login(User user) {
+//        return service.login(user);
+//    }
 
     /**
      * 注册接口
@@ -47,6 +48,7 @@ public class AuthController {
      * @param user POST 传入user对象
      * @return 通用返回体
      */
+    @Log(module = "用户模块",api = "注册")
     @APIMonitor(api = "register", parentAPI = "auth")
     @PostMapping("/register")
     public Object register(@RequestBody User user) {
@@ -74,6 +76,8 @@ public class AuthController {
      */
     @PostMapping("/update")
     @PreAuthorize("hasAuthority('system:authority:update')")
+    @Log(module = "用户模块",api = "修改权限")
+    @Transactional // 事务，防止服务器宕机数据安全性
     public Object update(@RequestBody List<Integer> authority_ids, int role_id) {
         return authorityService.update(authority_ids, role_id);
     }
@@ -84,7 +88,6 @@ public class AuthController {
      * @param role_id 角色id
      * @return 返回体
      */
-    @Transactional // 事务，防止服务器宕机数据安全性
     @GetMapping("/default_check")
     @PreAuthorize("hasAuthority('system:authority:query')")
     public Object defaultCheck(int role_id) {

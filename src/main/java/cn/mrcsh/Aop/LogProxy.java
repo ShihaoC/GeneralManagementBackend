@@ -1,8 +1,11 @@
 package cn.mrcsh.Aop;
 
 import cn.mrcsh.Annotations.Log;
+import cn.mrcsh.Entity.ELog;
+import cn.mrcsh.Service.ELogService;
 import cn.mrcsh.Util.JwtUtil;
 import cn.mrcsh.Util.RedisUtil;
+import com.alibaba.fastjson.JSON;
 import io.jsonwebtoken.Claims;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -26,6 +29,9 @@ public class LogProxy {
     @Autowired
     private RedisUtil redisUtil;
 
+    @Autowired
+    private ELogService service;
+
     @Pointcut("@annotation(cn.mrcsh.Annotations.Log)")
     public void pt(){}
 
@@ -38,19 +44,16 @@ public class LogProxy {
         //***********************************************************************************
         String api = method.getAnnotation(Log.class).api(); // api名称
         String module = method.getAnnotation(Log.class).module(); // 模块名称
-        String username = ""; // 用户名
         Long currentTime = System.currentTimeMillis(); // 时间戳
         String Type = request.getMethod(); // 请求方式
         String token = request.getHeader("authorization"); // token 用JwtUtil解析token
+        String username = getUsername(token); // 用户名
         String ip = getIP(request); // 操作地址
-        redisUtil.set(currentTime+":["+module+"("+api+")]",request.getHeader("authorization"));
         log.info(request.getHeader("authorization"));
-
-
-
-
-
-
+        ELog instance = ELog.getInstance(currentTime,module, api, Type, username, ip);
+        redisUtil.set("Log:"+module+":"+api+"-"+currentTime, JSON.toJSONString(instance));
+        instance.setId(null);
+        service.insert(instance);
 
 
 
@@ -72,8 +75,13 @@ public class LogProxy {
             ip = request.getRemoteAddr();
         }
         if(ip.equals("127.0.0.1") || ip.equals("0:0:0:0:0:0:0:1") || ip.contains("172")){
-            ip = null;
+            ip = "NaN";
         }
         return ip;
+    }
+
+    public String getUsername(String token){
+        Claims claims = JwtUtil.checkToken(token);
+        return claims.getSubject();
     }
 }

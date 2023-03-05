@@ -1,5 +1,6 @@
 package cn.mrcsh.Controller;
 
+import cn.mrcsh.Annotations.Log;
 import cn.mrcsh.Entity.Api.qweather.weather;
 import cn.mrcsh.Entity.Result;
 import cn.mrcsh.Service.WeatherService;
@@ -28,6 +29,7 @@ public class WeatherController {
      * @return <T>
      */
     @GetMapping("/weather")
+    @Log(api = "获取天气",module = "天气")
     public Object getWeather(HttpServletRequest request) {
         weather weather = service.getWeather(request);
         return Result.success(weather.getNow());

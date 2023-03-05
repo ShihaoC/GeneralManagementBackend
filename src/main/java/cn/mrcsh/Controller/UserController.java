@@ -1,5 +1,6 @@
 package cn.mrcsh.Controller;
 
+import cn.mrcsh.Annotations.Log;
 import cn.mrcsh.Entity.Result;
 import cn.mrcsh.Entity.User;
 import cn.mrcsh.Service.UserService;
@@ -46,6 +47,7 @@ public class UserController {
      */
     @GetMapping("/user_delete/{id}")
     @PreAuthorize("hasAuthority('system:user:delete')")
+    @Log(module = "用户模块",api = "删除用户")
     public Object delete(@PathVariable int id) {
         return service.delete(id);
     }
@@ -58,6 +60,7 @@ public class UserController {
      */
     @PostMapping("/user_update")
     @PreAuthorize("hasAuthority('system:user:update')")
+    @Log(module = "用户模块",api = "修改用户")
     public Object update(@RequestBody User user) {
         return service.update(user);
     }
@@ -70,6 +73,7 @@ public class UserController {
      */
     @PostMapping("/user_insert")
     @PreAuthorize("hasAuthority('system:user:insert')")
+    @Log(module = "用户模块",api = "添加用户")
     public Object insert(@RequestBody User user) {
         return service.insert(user);
     }
@@ -83,12 +87,14 @@ public class UserController {
      */
     @GetMapping("/user_update_statue/{id}")
     @PreAuthorize("hasAuthority('system:user:update')")
+    @Log(module = "用户模块",api = "修改用户状态")
     public Object update_statue(@PathVariable int id, boolean statue) {
         return service.update_statue(id, statue);
     }
 
     @GetMapping("/user_export_excel")
     @PreAuthorize("hasAuthority('system:user:export')")
+    @Log(module = "用户模块",api = "导出用户Excel")
     public void export(HttpServletResponse response) {
         service.export_excel(response);
     }
@@ -112,6 +118,7 @@ public class UserController {
 
     @PostMapping("/batch_Delete")
     @PreAuthorize("hasAuthority('system:user:delete')")
+    @Log(module = "用户模块",api = "批量删除用户")
     public Result batch_Delete(@RequestBody List<User> users) {
         int result = service.batch_Delete(users);
         return Result.success(result);

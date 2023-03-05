@@ -1,6 +1,7 @@
 package cn.mrcsh.Controller;
 
 import cn.mrcsh.Annotations.APIMonitor;
+import cn.mrcsh.Annotations.Log;
 import cn.mrcsh.Entity.Department;
 import cn.mrcsh.Entity.Result;
 import cn.mrcsh.Service.DepartmentService;
@@ -64,6 +65,7 @@ public class DepartmentController {
      *
      * @return 通用返回体
      */
+    @Log(module = "岗位模块",api = "删除岗位")
     @APIMonitor(value = "delete_department", parentAPI = "dep")
     @GetMapping(value = "/delete_department")
     public Object deleteDepartment(int id) {
@@ -78,6 +80,7 @@ public class DepartmentController {
      */
     @APIMonitor(value = "update_department", parentAPI = "dep")
     @PostMapping(value = "/update_department")
+    @Log(module = "岗位模块",api = "修改岗位")
     public Object updateDepartment(@RequestBody Department department) {
         return service.update(department);
     }
@@ -90,6 +93,7 @@ public class DepartmentController {
      */
     @APIMonitor(value = "insert_department", parentAPI = "dep")
     @PostMapping(value = "/insert_department")
+    @Log(module = "岗位模块",api = "添加岗位")
     public Object insertDepartment(@RequestBody Department department) {
         department.setDate(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
         return service.insert(department);
@@ -103,6 +107,7 @@ public class DepartmentController {
      */
     @APIMonitor(value = "batch_Delete", parentAPI = "dep")
     @PostMapping(value = "/batch_Delete")
+    @Log(module = "岗位模块",api = "批量删除岗位")
     public Object batch_delete(@RequestBody List<Department> departments) {
         int i = service.batch_Delete(departments);
         return Result.success(i);
