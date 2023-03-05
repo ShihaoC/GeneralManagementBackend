@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -40,9 +41,9 @@ public class LogController {
      * @param logs 日志集合
      * @return {code: 200, msg: 'success', data: {object}}
      */
-    @DeleteMapping("/del")
+    @PostMapping("/del")
     @PreAuthorize("hasAuthority('system:log:delete')")
-    public Object del(List<ELog> logs){
+    public Object del(@RequestBody List<ELog> logs){
         int result = service.delete(logs);
         return Result.success(result);
     }
