@@ -21,5 +21,9 @@ public class Authority {
     private boolean enable;
     @TableField("type")
     private String type;
+    @TableField("icon")
+    private String icon;
+    @TableField("menable")
+    private boolean menable;
 
 }

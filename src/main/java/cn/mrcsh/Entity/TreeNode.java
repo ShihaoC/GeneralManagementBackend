@@ -5,7 +5,7 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-public class TreeNode {
+public class TreeNode<T> {
 
     /** 节点ID */
     private Integer id;
@@ -18,13 +18,16 @@ public class TreeNode {
 
     private boolean enable;
 
-    /** 子节点 */
-    private List<TreeNode> children;
+    private T data;
 
-    public TreeNode(Integer id, Integer parentId, String label,boolean enable) {
+    /** 子节点 */
+    private List<TreeNode<T>> children;
+
+    public TreeNode(Integer id, Integer parentId, String label,boolean enable,T data) {
         this.id = id;
         this.parentId = parentId;
         this.label = label;
         this.enable = enable;
+        this.data = data;
     }
 }

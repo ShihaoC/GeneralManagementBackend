@@ -11,12 +11,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
+import java.util.*;
 import java.util.stream.Collectors;
+
 
 @Service
 @Slf4j
@@ -51,15 +48,23 @@ public class AuthorityService {
      * @return true/false
      */
     public Result update(List<Integer> authority_ids, int role_id) {
+        Set<Integer> set = new HashSet<>();
         for (Integer authorityId : authority_ids) {
 //            log.info("" + authorityId);
             roleConnectMapper.delete(new QueryWrapper<RoleConnect>().eq("role_id", role_id));
         }
 
         for (Integer authorityId : authority_ids) {
+            set.add(authorityId);
+            if(authorityMapper.selectId(authorityId) != 0){
+                set.add(authorityMapper.selectId(authorityId));
+            }
+        }
+
+        for (Integer integer : set) {
             RoleConnect connect = new RoleConnect();
             connect.setEnable(true);
-            connect.setAuthority_id(authorityId);
+            connect.setAuthority_id(integer);
             connect.setRole_id(role_id);
             roleConnectMapper.insert(connect);
         }
@@ -78,15 +83,18 @@ public class AuthorityService {
         List<Authority> authorities = selectList();
         List<Authority> authorities1 = selectAuth(role_id);
         for (Authority a : authorities1) {
-            for (Authority a1 : authorities) {
-                if (a.getName().equals(a1.getName())) {
-                    a1.setEnable(true);
-                    break;
+            if(a != null){
+                a.setEnable(false);
+                for (Authority a1 : authorities) {
+                    if (a.getName().equals(a1.getName())) {
+                        a1.setEnable(true);
+                        break;
+                    }
                 }
             }
         }
         for (Authority authority : authorities) {
-            treeNodes.add(new TreeNode(authority.getId(), authority.getLevel(), authority.getName(), authority.isEnable()));
+            treeNodes.add(new TreeNode(authority.getId(), authority.getLevel(), authority.getName(), authority.isEnable(), authority));
         }
         TreeUtil treeUtil = new TreeUtil(treeNodes);
         List<TreeNode> treeNodes1 = treeUtil.buildTree();
@@ -101,7 +109,7 @@ public class AuthorityService {
 
     public List<Authority> selectAuth(int role_id) {
         List<RoleConnect> roleId = roleConnectMapper.selectList(new QueryWrapper<RoleConnect>().eq("role_id", role_id));
-        List<Integer> collect = roleId.stream().map(e -> e.getAuthority_id()).collect(Collectors.toList());
+        List<Integer> collect = roleId.stream().map(RoleConnect::getAuthority_id).collect(Collectors.toList());
         List<Authority> authorities = new ArrayList<>();
         for (Integer integer : collect) {
             authorities.add(authorityMapper.selectOne(new QueryWrapper<Authority>().eq("id", integer)));
