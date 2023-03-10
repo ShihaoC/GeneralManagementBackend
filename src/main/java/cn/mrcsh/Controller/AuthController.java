@@ -13,6 +13,8 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import java.lang.reflect.Array;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -29,18 +31,6 @@ public class AuthController {
 
     @Autowired
     private AuthorityService authorityService;
-
-//    /**
-//     * 登录接口
-//     *
-//     * @param user POST请求的参数
-//     * @return 通用返回体
-//     */
-//    @APIMonitor(api = "login", parentAPI = "auth")
-//    @PostMapping("/login")
-//    public Object login(User user) {
-//        return service.login(user);
-//    }
 
     /**
      * 注册接口
@@ -77,8 +67,9 @@ public class AuthController {
     @PostMapping("/update")
     @PreAuthorize("hasAuthority('system:authority:update')")
     @Log(module = "用户模块",api = "修改权限")
-    @Transactional // 事务，防止服务器宕机数据安全性
+    @Transactional // 事务
     public Object update(@RequestBody List<Integer> authority_ids, int role_id) {
+        log.info(Arrays.toString(authority_ids.toArray()));
         return authorityService.update(authority_ids, role_id);
     }
 

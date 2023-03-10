@@ -81,14 +81,10 @@ public class AuthorityService {
             for (Authority a1 : authorities) {
                 if (a.getName().equals(a1.getName())) {
                     a1.setEnable(true);
-//                    log.info(a1.toString());
-//                    log.info(a.getName());
                     break;
                 }
             }
         }
-//        log.info(Arrays.toString(authorities.toArray()));
-//        log.info(Arrays.toString(authorities1.toArray()));
         for (Authority authority : authorities) {
             treeNodes.add(new TreeNode(authority.getId(), authority.getLevel(), authority.getName(), authority.isEnable()));
         }

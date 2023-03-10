@@ -29,7 +29,7 @@ public class ELogServiceImpl implements ELogService {
     @Override
     public Pages<Object> query(String module, int page) {
         Page<ELog> logPage = new Page<>(page,10);
-        mapper.selectPage(logPage,new QueryWrapper<ELog>().like("module",module));
+        mapper.selectPage(logPage,new QueryWrapper<ELog>().like("module",module).orderByDesc("id"));
         return new PagesFactory<>().getInstance(logPage.getCurrent(),logPage.getTotal(),logPage.getRecords());
     }
 

@@ -19,11 +19,12 @@ public class ConsoleTask implements CommandLineRunner {
         new Thread(()->{
             Scanner input = new Scanner(System.in);
             while (true) {
+                System.out.print("EmployeeManagement > ");
                 switch (input.nextLine()) {
                     case "stop":
                     case "end":
                     case "quit":
-                        log.warn("服务器关闭中。。。");
+                        log.warn("server stoping...");
                         input.close();
                         System.exit(0);
                         break;
@@ -32,8 +33,10 @@ public class ConsoleTask implements CommandLineRunner {
                             System.out.println("\n\n");
                         }
                         break;
+                    case "":
+                        break;
                     default:
-                        log.error("未知指令");
+                        log.error("unknow command");
                         break;
                 }
             }

@@ -44,10 +44,14 @@ public class LogProxy {
         //***********************************************************************************
         String api = method.getAnnotation(Log.class).api(); // api名称
         String module = method.getAnnotation(Log.class).module(); // 模块名称
+
         Long currentTime = System.currentTimeMillis(); // 时间戳
         String Type = request.getMethod(); // 请求方式
         String token = request.getHeader("authorization"); // token 用JwtUtil解析token
-        String username = getUsername(token); // 用户名
+        String username = "注册ing";
+        if(token != null){
+            username = getUsername(token); // 用户名
+        }
         String ip = getIP(request); // 操作地址
         log.info(request.getHeader("authorization"));
         ELog instance = ELog.getInstance(currentTime,module, api, Type, username, ip);
