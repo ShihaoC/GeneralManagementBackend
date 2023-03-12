@@ -5,12 +5,14 @@ import cn.mrcsh.Entity.Factory.Pages;
 import cn.mrcsh.Entity.Factory.PagesFactory;
 import cn.mrcsh.Mapper.ELogMapper;
 import cn.mrcsh.Service.ELogService;
+import cn.mrcsh.Util.PoiUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -42,5 +44,10 @@ public class ELogServiceImpl implements ELogService {
     @Override
     public int update(ELog log) {
         return mapper.update(log, new QueryWrapper<ELog>().eq("id", log.getId()));
+    }
+
+    @Override
+    public void export_excel(HttpServletResponse response) {
+        PoiUtil.export_Excel(response,mapper,ELog.class);
     }
 }

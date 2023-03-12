@@ -1,13 +1,17 @@
 package cn.mrcsh.Entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
+import lombok.ToString;
 
 @TableName("sys_authority")
 @Data
+@ToString
 public class Authority {
-    @TableField("id")
+    @TableId(type = IdType.AUTO)
     private Integer id;
     @TableField("level")
     private Integer level;
@@ -25,5 +29,7 @@ public class Authority {
     private String icon;
     @TableField("menable")
     private boolean menable;
+    @TableField("Exclusions")
+    private boolean Exclusions;
 
 }

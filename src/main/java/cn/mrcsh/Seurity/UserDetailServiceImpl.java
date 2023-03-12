@@ -42,7 +42,6 @@ public class UserDetailServiceImpl implements UserDetailsService {
     }
 
     public List<GrantedAuthority> getUserAuthority(Integer userId) {
-//        log.info("ID" + userId);
         StringBuilder authority = new StringBuilder();
         User user = userMapper.selectOne(new QueryWrapper<User>().eq("id", userId));
         String role_id = user.getRole();

@@ -5,17 +5,17 @@ import cn.mrcsh.Entity.TreeNode;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TreeUtil {
+public class TreeUtil <T> {
 
     // 保存参与构建树形的所有数据（通常数据库查询结果）
-    public List<TreeNode> nodeList = new ArrayList<>();
+    public List<TreeNode<T>> nodeList = new ArrayList<>();
 
     /**
      * 构造方法
      *
      * @param nodeList 将数据集合赋值给nodeList，即所有数据作为所有节点。
      */
-    public TreeUtil(List<TreeNode> nodeList) {
+    public TreeUtil(List<TreeNode<T>> nodeList) {
         this.nodeList = nodeList;
     }
 
@@ -24,11 +24,11 @@ public class TreeUtil {
      *
      * @return 所有根节点List集合
      */
-    public List<TreeNode> getRootNode() {
+    public List<TreeNode<T>> getRootNode() {
         // 保存所有根节点（所有根节点的数据）
-        List<TreeNode> rootNodeList = new ArrayList<>();
+        List<TreeNode<T>> rootNodeList = new ArrayList<>();
         // treeNode：查询出的每一条数据（节点）
-        for (TreeNode treeNode : nodeList) {
+        for (TreeNode<T> treeNode : nodeList) {
             // 判断当前节点是否为根节点，此处注意：若parentId类型是String，则要采用equals()方法判断。
             if (0 == treeNode.getParentId()) {
                 // 是，添加
@@ -43,11 +43,11 @@ public class TreeUtil {
      *
      * @return 构建整棵树
      */
-    public List<TreeNode> buildTree() {
+    public List<TreeNode<T>> buildTree() {
         // treeNodes：保存一个顶级节点所构建出来的完整树形
-        List<TreeNode> treeNodes = new ArrayList<TreeNode>();
+        List<TreeNode<T>> treeNodes = new ArrayList<TreeNode<T>>();
         // getRootNode()：获取所有的根节点
-        for (TreeNode treeRootNode : getRootNode()) {
+        for (TreeNode<T> treeRootNode : getRootNode()) {
             // 将顶级节点进行构建子树
             treeRootNode = buildChildTree(treeRootNode);
             // 完成一个顶级节点所构建的树形，增加进来
@@ -62,10 +62,10 @@ public class TreeUtil {
      * @param pNode 根节点（顶级节点）
      * @return 整棵树
      */
-    public TreeNode buildChildTree(TreeNode pNode) {
-        List<TreeNode> childTree = new ArrayList<TreeNode>();
+    public TreeNode<T> buildChildTree(TreeNode<T> pNode) {
+        List<TreeNode<T>> childTree = new ArrayList<TreeNode<T>>();
         // nodeList：所有节点集合（所有数据）
-        for (TreeNode treeNode : nodeList) {
+        for (TreeNode<T> treeNode : nodeList) {
             // 判断当前节点的父节点ID是否等于根节点的ID，即当前节点为其下的子节点
             if (treeNode.getParentId().equals(pNode.getId())) {
                 // 再递归进行判断当前节点的情况，调用自身方法

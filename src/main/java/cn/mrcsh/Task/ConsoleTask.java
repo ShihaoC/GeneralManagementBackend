@@ -1,10 +1,13 @@
 package cn.mrcsh.Task;
 
 import cn.mrcsh.Cache.APIInvokeCount;
+import cn.mrcsh.Util.ReflectUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 @Slf4j
@@ -32,6 +35,13 @@ public class ConsoleTask implements CommandLineRunner {
                         for (int i = 0; i < 10; i++) {
                             System.out.println("\n\n");
                         }
+                        break;
+                    case "showTemp":
+                        List<String> FieldNames = new ArrayList<>();
+                        ReflectUtil.forEachFields(APIInvokeCount.class,field->{
+                            FieldNames.add(field.getName());
+                        });
+
                         break;
                     case "":
                         break;

@@ -12,4 +12,6 @@ import java.util.List;
 public interface RoleConnectMapper extends BaseMapper<RoleConnect> {
     List<Authority> list(@Param("role_id")int role_id);
 
+    int deleteByAuthority_id(@Param("auth_id")int auth_id);
+
 }

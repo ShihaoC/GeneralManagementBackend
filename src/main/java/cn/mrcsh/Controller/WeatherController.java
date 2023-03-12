@@ -3,6 +3,7 @@ package cn.mrcsh.Controller;
 import cn.mrcsh.Annotations.Log;
 import cn.mrcsh.Entity.Api.qweather.weather;
 import cn.mrcsh.Entity.Result;
+import cn.mrcsh.Excepiton.WeatherException;
 import cn.mrcsh.Service.WeatherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -29,9 +30,9 @@ public class WeatherController {
      * @return <T>
      */
     @GetMapping("/weather")
-    @Log(api = "获取天气",module = "天气")
-    public Object getWeather(HttpServletRequest request) {
-        weather weather = service.getWeather(request);
+    public Object getWeather(HttpServletRequest request){
+        weather weather = null;
+        weather = service.getWeather(request);
         return Result.success(weather.getNow());
     }
 }

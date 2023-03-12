@@ -1,5 +1,6 @@
 package cn.mrcsh.Entity;
 
+import cn.mrcsh.Annotations.ExcelFieldName;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -12,19 +13,25 @@ import java.util.Date;
 @Data
 @TableName("sys_log")
 public class ELog {
-
+    @ExcelFieldName("ID")
     @TableId(value = "id",type = IdType.AUTO)
     private Long id;
+    @ExcelFieldName("模块名称")
     @TableField(value = "module")
     private String module;
+    @ExcelFieldName("操作类型")
     @TableField(value = "type")
     private String type;
+    @ExcelFieldName("请求方式")
     @TableField(value = "request_type")
     private String request_type;
+    @ExcelFieldName("请求用户")
     @TableField(value = "user")
     private String user;
+    @ExcelFieldName("ip地址")
     @TableField(value = "address")
     private String address;
+    @ExcelFieldName("请求日期")
     @TableField(value = "date")
     private String date;
 

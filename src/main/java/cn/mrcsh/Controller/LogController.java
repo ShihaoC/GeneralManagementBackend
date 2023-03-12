@@ -4,11 +4,13 @@ import cn.mrcsh.Entity.ELog;
 import cn.mrcsh.Entity.Factory.Pages;
 import cn.mrcsh.Entity.Result;
 import cn.mrcsh.Service.ELogService;
+import cn.mrcsh.Util.PoiUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.Arrays;
 import java.util.List;
 
@@ -46,5 +48,11 @@ public class LogController {
     public Object del(@RequestBody List<ELog> logs){
         int result = service.delete(logs);
         return Result.success(result);
+    }
+
+    @GetMapping("/export_excel")
+    @PreAuthorize("hasAuthority('system:log:export')")
+    public void export_excel(HttpServletResponse response){
+        service.export_excel(response);
     }
 }

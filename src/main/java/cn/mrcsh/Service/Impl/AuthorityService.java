@@ -126,6 +126,8 @@ public class AuthorityService {
     public List<Integer> getDefaultChecked(int role_id) {
         List<Authority> authorities = selectList();
         List<Authority> authorities1 = selectAuth(role_id);
+        log.info(Arrays.toString(authorities.toArray()));
+        log.info(Arrays.toString(authorities1.toArray()));
         for (Authority a : authorities1) {
             for (Authority a1 : authorities) {
                 if (a.getName().equals(a1.getName())) {
@@ -134,14 +136,23 @@ public class AuthorityService {
                 }
             }
         }
+        log.info(Arrays.toString(authorities.toArray()));
         List<Integer> role_ids = new ArrayList<>();
         for (Authority authority : authorities) {
-            if (authority.isEnable() && authority.getType().equals("2") || authority.getValue().equals("index")) {
+            if (authority.isEnable() && authority.getType().equals("2") || authority.isExclusions() && authority.isEnable()) {
                 role_ids.add(authority.getId());
             }
         }
+        log.info(Arrays.toString(role_ids.toArray()));
         return role_ids;
     }
 
+    public int insert(Authority authority){
+        return authorityMapper.insert(authority);
+    }
 
+    public int delete(int id){
+        roleConnectMapper.deleteByAuthority_id(id);
+        return authorityMapper.deleteById(id);
+    }
 }
