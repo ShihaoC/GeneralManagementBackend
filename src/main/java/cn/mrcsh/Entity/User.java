@@ -67,4 +67,8 @@ public class User {
     @TableField(exist = false)
     @ExcelFieldName("Token")
     private String Token; // Token
+
+    @TableField(value = "phone")
+    @ExcelFieldName("手机号")
+    private String phone;
 }

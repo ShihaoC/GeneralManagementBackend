@@ -5,6 +5,7 @@ import cn.mrcsh.Entity.Result;
 import cn.mrcsh.Entity.User;
 import cn.mrcsh.Service.UserService;
 import cn.mrcsh.Util.OSSUtil;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -39,6 +40,7 @@ public class UserController {
         return service.selectList(search, page);
     }
 
+
     /**
      * 根据id删除用户信息
      *
@@ -58,7 +60,7 @@ public class UserController {
      * @param user 用户对象
      * @return <T>
      */
-    @PostMapping("/user_update")
+        @PostMapping("/user_update")
     @PreAuthorize("hasAuthority('system:user:update')")
     @Log(module = "用户模块",api = "修改用户")
     public Object update(@RequestBody User user) {
@@ -122,5 +124,11 @@ public class UserController {
     public Result batch_Delete(@RequestBody List<User> users) {
         int result = service.batch_Delete(users);
         return Result.success(result);
+    }
+
+    @GetMapping("/username/{id}")
+    public Result loadUserByUsername(@PathVariable int id){
+        User simple = service.getSimple(id);
+        return Result.success(simple);
     }
 }

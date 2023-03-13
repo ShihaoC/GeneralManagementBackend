@@ -1,6 +1,6 @@
 package cn.mrcsh;
 
-import love.forte.simboot.spring.autoconfigure.EnableSimbot;
+//import love.forte.simboot.spring.autoconfigure.EnableSimbot;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

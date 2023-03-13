@@ -26,4 +26,5 @@ public interface UserService {
     User getSimple(int id);
 
     int batch_Delete(List<User> users);
+
 }
