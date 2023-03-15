@@ -69,7 +69,6 @@ public class AuthController {
     @Log(module = "用户模块",api = "修改权限")
     @Transactional // 事务
     public Object update(@RequestBody List<Integer> authority_ids, int role_id) {
-        log.info(Arrays.toString(authority_ids.toArray()));
         return authorityService.update(authority_ids, role_id);
     }
 

@@ -53,7 +53,6 @@ public class LogProxy {
             username = getUsername(token); // 用户名
         }
         String ip = getIP(request); // 操作地址
-        log.info(request.getHeader("authorization"));
         ELog instance = ELog.getInstance(currentTime,module, api, Type, username, ip);
         redisUtil.set("Log:"+module+":"+api+"-"+currentTime, JSON.toJSONString(instance));
         instance.setId(null);

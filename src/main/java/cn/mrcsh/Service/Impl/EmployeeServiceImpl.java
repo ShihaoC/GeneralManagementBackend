@@ -65,7 +65,6 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public Result update(Employee employee) {
-//        log.info(employee.toString());
         int update;
         try {
             QueryWrapper<Employee> wrapper = new QueryWrapper<>();

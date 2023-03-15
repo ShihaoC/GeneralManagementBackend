@@ -33,3 +33,13 @@ mybatis-plus:
   configuration:
     map-underscore-to-camel-case: false
   mapper-locations: classpath:/mapper/*.xml
+
+
+#钉钉消息配置
+#对应Webhook中的access_token值
+ding:
+  robot:
+    token: bcd09beb722785e08ad7ef5b69f4b4ae9c7dd50495cbdd7fb51881e6e3642e92
+    key: SEC6be7d9a63d4d62ad3b35826f116c6aa8a50b7adf47487acb5e2ea249a51d8379
+    at:
+

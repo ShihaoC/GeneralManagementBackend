@@ -9,6 +9,7 @@ import cn.mrcsh.Util.TreeUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -17,6 +18,7 @@ import java.util.stream.Collectors;
 
 @Service
 @Slf4j
+
 public class AuthorityService {
 
     @Autowired
@@ -50,7 +52,6 @@ public class AuthorityService {
     public Result update(List<Integer> authority_ids, int role_id) {
         Set<Integer> set = new HashSet<>();
         for (Integer authorityId : authority_ids) {
-//            log.info("" + authorityId);
             roleConnectMapper.delete(new QueryWrapper<RoleConnect>().eq("role_id", role_id));
         }
 
@@ -129,12 +130,16 @@ public class AuthorityService {
         log.info(Arrays.toString(authorities.toArray()));
         log.info(Arrays.toString(authorities1.toArray()));
         for (Authority a : authorities1) {
+            log.info("1============================");
+            log.info(a.toString());
             for (Authority a1 : authorities) {
+                log.info(a1.toString());
                 if (a.getName().equals(a1.getName())) {
                     a1.setEnable(true);
                     break;
                 }
             }
+            log.info("2============================");
         }
         log.info(Arrays.toString(authorities.toArray()));
         List<Integer> role_ids = new ArrayList<>();
@@ -152,7 +157,21 @@ public class AuthorityService {
     }
 
     public int delete(int id){
+        del(id);
         roleConnectMapper.deleteByAuthority_id(id);
         return authorityMapper.deleteById(id);
+    }
+
+    public void del(int id){
+        List<Authority> authorities = authorityMapper.selectList(new QueryWrapper<Authority>().eq("level", id));
+        List<Integer> authIds = authorities.stream().map(Authority::getId).collect(Collectors.toList());
+        if(authIds.size() == 0){
+            return;
+        }
+        authorityMapper.deleteBatchIds(authIds);
+        for (Integer authId : authIds) {
+            roleConnectMapper.deleteByAuthority_id(authId);
+            del(authId);
+        }
     }
 }
