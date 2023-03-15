@@ -103,9 +103,7 @@ public class UserController {
 
     @PostMapping("/uploadImage/{id}")
     public Result upload(MultipartFile file, @PathVariable int id) throws IOException {
-        log.info("upload:" + id);
         String OSSUrl = OSSUtil.uploadImage(file);
-//        log.info(OSSUrl);
         User simple = service.getSimple(id);
         OSSUtil.delete(simple.getImage_url());
         simple.setImage_url(OSSUrl);

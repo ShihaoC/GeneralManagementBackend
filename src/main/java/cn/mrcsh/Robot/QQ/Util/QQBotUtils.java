@@ -1,4 +1,4 @@
-package cn.mrcsh.Robot.Util;
+package cn.mrcsh.Robot.QQ.Util;
 
 import love.forte.simbot.bot.OriginBotManager;
 import love.forte.simbot.message.Messages;

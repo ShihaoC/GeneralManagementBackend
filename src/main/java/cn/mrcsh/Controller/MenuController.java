@@ -71,4 +71,11 @@ public class MenuController {
         int result = authorityService.delete(id);
         return Result.success(result);
     }
+
+    @PostMapping("/update")
+    @Log(module = "菜单模块",api = "修改菜单")
+    public Object update(@RequestBody Authority authority){
+        log.info(authority.toString());
+        return null;
+    }
 }

@@ -143,13 +143,13 @@
         <dependency>
             <groupId>love.forte.simbot.boot</groupId>
             <artifactId>simboot-core-spring-boot-starter</artifactId>
-            <version>3.0.0-RC</version>
+            <version>3.0.0-RC.3</version>
         </dependency>
         <!-- mirai组件 -->
         <dependency>
             <groupId>love.forte.simbot.component</groupId>
             <artifactId>simbot-component-mirai-core</artifactId>
-            <version>3.0.0.0-beta.6</version>
+            <version>3.0.0.0-M5</version>
         </dependency>
 <!--        阿里云OSS 对象存储-->
 
@@ -157,6 +157,13 @@
             <groupId>com.aliyun.oss</groupId>
             <artifactId>aliyun-sdk-oss</artifactId>
             <version>3.15.0</version>
+        </dependency>
+<!--        钉钉SDK-->
+
+        <dependency>
+            <groupId>com.aliyun</groupId>
+            <artifactId>alibaba-dingtalk-service-sdk</artifactId>
+            <version>2.0.0</version>
         </dependency>
 
         <dependency>

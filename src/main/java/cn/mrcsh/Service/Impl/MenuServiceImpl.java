@@ -51,7 +51,6 @@ public class MenuServiceImpl implements MenuService {
     @Override
     public List<TreeNode<Menu>> AllParentNodes() {
         List<Menu> menus = menuMapper.selectAllParnetNodes();
-        log.info(Arrays.toString(menus.toArray()));
         List<TreeNode<Menu>> nodes = new ArrayList<>();
         for (Menu menu : menus) {
             nodes.add(new TreeNode<Menu>(menu.getId(),menu.getLevel(),menu.getName(),menu.isEnable(),menu));

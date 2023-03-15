@@ -1,4 +1,4 @@
-package cn.mrcsh.Robot.Event;
+package cn.mrcsh.Robot.QQ.Event;
 
 import cn.mrcsh.Entity.Employee;
 import cn.mrcsh.Service.Impl.EmployeeServiceImpl;
@@ -27,10 +27,8 @@ public class MessageEvent {
     @Filter(targets = @Filter.Targets(groups = {"622699505"}))
     public void onMessage(MiraiGroupMessageEvent event) {
         String context = event.getMessageContent().getPlainText();
-//        log.info(context + "\t" + event.getAuthor().getId());
         String s = context.replaceAll("#", " ");
         String[] args = s.split(" ");
-//        log.info(Arrays.toString(args));
         if (args.length == 1) {
             switch (args[0]) {
                 case "签到":
@@ -50,8 +48,16 @@ public class MessageEvent {
                     log.info(args[2]);
                     break;
             }
+        }else {
+            log.info(context);
         }
 
+    }
+
+    @Listener
+    public void onGroupMessage(MiraiGroupMessageEvent event){
+        String context = event.getMessageContent().getPlainText();
+        log.info(context);
     }
 
 }
