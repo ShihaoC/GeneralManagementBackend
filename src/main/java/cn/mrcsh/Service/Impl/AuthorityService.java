@@ -9,10 +9,11 @@ import cn.mrcsh.Util.TreeUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
 
@@ -49,7 +50,7 @@ public class AuthorityService {
      * @param role_id       角色id
      * @return true/false
      */
-    public Result update(List<Integer> authority_ids, int role_id) {
+    public CompletableFuture<Result> update(List<Integer> authority_ids, int role_id) {
         Set<Integer> set = new HashSet<>();
         for (Integer authorityId : authority_ids) {
             roleConnectMapper.delete(new QueryWrapper<RoleConnect>().eq("role_id", role_id));
@@ -69,7 +70,7 @@ public class AuthorityService {
             connect.setRole_id(role_id);
             roleConnectMapper.insert(connect);
         }
-        return null;
+        return CompletableFuture.completedFuture(null);
     }
 
 

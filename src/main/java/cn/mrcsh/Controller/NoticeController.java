@@ -15,11 +15,11 @@ public class NoticeController {
     @SneakyThrows
     public String sendMessage(String context){
         DingTalkUtil.DingTalkMessageBuilder builder = new DingTalkUtil.DingTalkMessageBuilder();
-        builder
+        String body = builder
                 .initialization()
                 .setText(context)
                 .build()
                 .sendMessage();
-        return null;
+        return body;
     }
 }
