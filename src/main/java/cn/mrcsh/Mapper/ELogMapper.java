@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ELogMapper extends BaseMapper<ELog> {
+    int clear();
 }

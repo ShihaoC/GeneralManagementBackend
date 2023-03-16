@@ -17,4 +17,6 @@ public interface ELogService {
     int update(ELog log);
 
     void export_excel(HttpServletResponse response);
+
+    int clear();
 }

@@ -55,4 +55,11 @@ public class LogController {
     public void export_excel(HttpServletResponse response){
         service.export_excel(response);
     }
+
+    @GetMapping("/clear")
+    @PreAuthorize("hasAuthority('system:log:clear')")
+    public Object clear(){
+        int res = service.clear();
+        return Result.success(res);
+    }
 }
