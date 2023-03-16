@@ -53,16 +53,24 @@ public class MenuController {
         return Result.success(treeNodes);
     }
 
-    @PostMapping("/insert/{Exclusions}")
-    public Object insert(@RequestBody Authority authority,@PathVariable boolean Exclusions){
+    @PostMapping("/insert/{Exclusions}/{isAuthority}")
+    public Object insert(@RequestBody Authority authority,@PathVariable boolean Exclusions, @PathVariable boolean isAuthority){
+        log.info(authority.toString());
         if(authority.getLevel() == null){
             authority.setLevel(0);
         }
+        if(isAuthority){
+            authority.setType("2");
+        }else {
+            authority.setType("1");
+        }
+        log.info(isAuthority+"");
         authority.setId(null);
         authority.setExclusions(Exclusions);
-        authority.setType("1");
         int insert = authorityService.insert(authority);
         return Result.success(insert);
+//        log.info(authority.toString());
+//        return Result.success("");
     }
 
     @GetMapping("/del/{id}")
@@ -72,10 +80,27 @@ public class MenuController {
         return Result.success(result);
     }
 
-    @PostMapping("/update")
+    @PostMapping("/update/{Exclusions}/{isAuthority}")
     @Log(module = "菜单模块",api = "修改菜单")
-    public Object update(@RequestBody Authority authority){
+    public Object update(@RequestBody Authority authority,@PathVariable boolean Exclusions, @PathVariable boolean isAuthority){
+        authority.setExclusions(Exclusions);
+        if(isAuthority){
+            authority.setType("2");
+        }else {
+            authority.setType("1");
+        }
+        if("".equals(authority.getIcon())){
+            authority.setIcon(" ");
+        }
+
         log.info(authority.toString());
-        return null;
+        int i = authorityService.updateByAuthorityId(authority);
+        return Result.success(i);
+    }
+
+    @GetMapping("/getAllMenu")
+    public Result getAllMenu(){
+        List<Authority> all = authorityService.getAll();
+        return Result.success(all);
     }
 }

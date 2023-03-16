@@ -9,10 +9,11 @@ import cn.mrcsh.Util.TreeUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
 
@@ -50,19 +51,19 @@ public class AuthorityService {
      * @return true/false
      */
     public Result update(List<Integer> authority_ids, int role_id) {
-        Set<Integer> set = new HashSet<>();
-        for (Integer authorityId : authority_ids) {
-            roleConnectMapper.delete(new QueryWrapper<RoleConnect>().eq("role_id", role_id));
-        }
+        ids.clear();
+        log.info("authority_ids" + Arrays.toString(authority_ids.toArray()));
+        roleConnectMapper.delete(new QueryWrapper<RoleConnect>().eq("role_id", role_id));
 
         for (Integer authorityId : authority_ids) {
-            set.add(authorityId);
-            if(authorityMapper.selectId(authorityId) != 0){
-                set.add(authorityMapper.selectId(authorityId));
+            ids.add(authorityId);
+            if (authorityMapper.selectId(authorityId) != 0) {
+                getParentId(authorityId);
             }
         }
+        log.info(Arrays.toString(ids.toArray()));
 
-        for (Integer integer : set) {
+        for (Integer integer : ids) {
             RoleConnect connect = new RoleConnect();
             connect.setEnable(true);
             connect.setAuthority_id(integer);
@@ -70,6 +71,22 @@ public class AuthorityService {
             roleConnectMapper.insert(connect);
         }
         return null;
+    }
+
+    public Set<Integer> ids = new HashSet<>();
+
+    public void getParentId(int auth_id) {
+        Integer integer = authorityMapper.selectId(auth_id);
+        if (integer != 0) {
+            ids.add(integer);
+            getParentId(integer);
+        }
+    }
+
+    public static void main(String[] args) {
+        AuthorityService service = new AuthorityService();
+        service.getParentId(8);
+        log.info(Arrays.toString(service.ids.toArray()));
     }
 
 
@@ -84,7 +101,7 @@ public class AuthorityService {
         List<Authority> authorities = selectList();
         List<Authority> authorities1 = selectAuth(role_id);
         for (Authority a : authorities1) {
-            if(a != null){
+            if (a != null) {
                 a.setEnable(false);
                 for (Authority a1 : authorities) {
                     if (a.getName().equals(a1.getName())) {
@@ -152,20 +169,20 @@ public class AuthorityService {
         return role_ids;
     }
 
-    public int insert(Authority authority){
+    public int insert(Authority authority) {
         return authorityMapper.insert(authority);
     }
 
-    public int delete(int id){
+    public int delete(int id) {
         del(id);
         roleConnectMapper.deleteByAuthority_id(id);
         return authorityMapper.deleteById(id);
     }
 
-    public void del(int id){
+    public void del(int id) {
         List<Authority> authorities = authorityMapper.selectList(new QueryWrapper<Authority>().eq("level", id));
         List<Integer> authIds = authorities.stream().map(Authority::getId).collect(Collectors.toList());
-        if(authIds.size() == 0){
+        if (authIds.size() == 0) {
             return;
         }
         authorityMapper.deleteBatchIds(authIds);
@@ -173,5 +190,13 @@ public class AuthorityService {
             roleConnectMapper.deleteByAuthority_id(authId);
             del(authId);
         }
+    }
+
+    public List<Authority> getAll(){
+        return authorityMapper.selectList(null);
+    }
+
+    public int updateByAuthorityId(Authority authority){
+        return authorityMapper.update(authority, new QueryWrapper<Authority>().eq("id", authority.getId()));
     }
 }

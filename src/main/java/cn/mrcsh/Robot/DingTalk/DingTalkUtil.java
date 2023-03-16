@@ -65,7 +65,7 @@ public class DingTalkUtil {
     public String sendMessage() throws UnsupportedEncodingException, NoSuchAlgorithmException, InvalidKeyException, ApiException {
         DingTalkClient client = new DefaultDingTalkClient(getAPIUrl());
         OapiRobotSendResponse execute = client.execute(request);
-        return execute.getMessage();
+        return execute.getBody();
     }
 
     public static class DingTalkMessageBuilder {

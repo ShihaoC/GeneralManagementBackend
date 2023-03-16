@@ -79,7 +79,7 @@ public class LogProxy {
             ip = request.getRemoteAddr();
         }
         if(ip.equals("127.0.0.1") || ip.equals("0:0:0:0:0:0:0:1") || ip.contains("172")){
-            ip = "NaN";
+            ip = "127.0.0.1";
         }
         return ip;
     }

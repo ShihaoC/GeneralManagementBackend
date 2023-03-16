@@ -50,4 +50,9 @@ public class ELogServiceImpl implements ELogService {
     public void export_excel(HttpServletResponse response) {
         PoiUtil.export_Excel(response,mapper,ELog.class);
     }
+
+    @Override
+    public int clear() {
+        return mapper.clear();
+    }
 }

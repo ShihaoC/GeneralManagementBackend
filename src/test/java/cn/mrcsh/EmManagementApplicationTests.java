@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @SpringBootTest
@@ -21,7 +22,8 @@ class EmManagementApplicationTests {
 
     @Test
     void contextLoads(){
-
+        service.getParentId(8);
+        log.info(Arrays.toString(service.ids.toArray()));
     }
 
     @Test

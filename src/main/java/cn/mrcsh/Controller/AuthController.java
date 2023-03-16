@@ -9,7 +9,9 @@ import cn.mrcsh.Service.Impl.AuthorityService;
 import cn.mrcsh.Service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,6 +33,9 @@ public class AuthController {
 
     @Autowired
     private AuthorityService authorityService;
+
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     /**
      * 注册接口
@@ -69,6 +74,7 @@ public class AuthController {
     @Log(module = "用户模块",api = "修改权限")
     @Transactional // 事务
     public Object update(@RequestBody List<Integer> authority_ids, int role_id) {
+        log.info(Arrays.toString(authority_ids.toArray()));
         return authorityService.update(authority_ids, role_id);
     }
 
@@ -83,5 +89,18 @@ public class AuthController {
     public Object defaultCheck(int role_id) {
         List<Integer> defaultChecked = authorityService.getDefaultChecked(role_id);
         return Result.success(defaultChecked);
+    }
+    @GetMapping("/updatePassword/{user_id}")
+    public Object updatePassword(@PathVariable String user_id,String pass1,String pass2){
+        User simple = service.getSimple(Integer.parseInt(user_id));
+        if(simple == null){
+            return Result.fail("不存在此用户");
+        }
+        if(!simple.getPassword().equals(bCryptPasswordEncoder.encode(pass1))){
+            return Result.fail("旧密码错误");
+        }
+        simple.setPassword(bCryptPasswordEncoder.encode(pass2));
+        service.update(simple);
+        return Result.success("修改成功");
     }
 }
