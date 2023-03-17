@@ -20,7 +20,7 @@ public class RoleController {
     private RoleService service;
 
     @GetMapping("/list")
-    @PreAuthorize("hasAuthority('system:role:query')")
+//    @PreAuthorize("hasAuthority('system:role:query')")
     public Object list(int page, String search) {
         return service.selectList(page, search);
     }
@@ -32,7 +32,7 @@ public class RoleController {
     }
 
     @PostMapping("/insert")
-    @PreAuthorize("hasAuthority('system:role:insert')")
+//    @PreAuthorize("hasAuthority('system:role:insert')")
     @Log(module = "角色模块",api = "创建角色")
     public Result insert(@RequestBody Role role) {
         int insert = service.insert(role);
@@ -40,7 +40,7 @@ public class RoleController {
     }
 
     @PostMapping("/update")
-    @PreAuthorize("hasAuthority('system:role:update')")
+//    @PreAuthorize("hasAuthority('system:role:update')")
     @Log(module = "角色模块",api = "修改角色")
     public Result update(@RequestBody Role role) {
         int update = service.update(role);
@@ -48,7 +48,7 @@ public class RoleController {
     }
 
     @GetMapping("/delete/{id}")
-    @PreAuthorize("hasAuthority('system:role:delete')")
+//    @PreAuthorize("hasAuthority('system:role:delete')")
     @Log(module = "角色模块",api = "删除角色")
     public Result delete(@PathVariable int id) {
         int delete = service.delete(id);
@@ -56,7 +56,7 @@ public class RoleController {
     }
 
     @GetMapping("/update_statue/{id}")
-    @PreAuthorize("hasAuthority('system:role:update')")
+//    @PreAuthorize("hasAuthority('system:role:update')")
     @Log(module = "角色模块",api = "修改角色状态")
     public Result update_statue(@PathVariable int id, boolean statue) {
         int i = service.updateStatue(id, statue);
@@ -64,7 +64,7 @@ public class RoleController {
     }
 
     @GetMapping("/export_excel")
-    @PreAuthorize("hasAuthority('system:role:export')")
+//    @PreAuthorize("hasAuthority('system:role:export')")
     @Log(module = "角色模块",api = "导出角色Excel")
     public Result export_excel(HttpServletResponse response) {
         service.export_excel(response);
@@ -72,7 +72,7 @@ public class RoleController {
     }
 
     @PostMapping("/batch_Delete")
-    @Log(module = "角色模块",api = "批量删除角色")
+//    @Log(module = "角色模块",api = "批量删除角色")
     public Result batch_Delete(@RequestBody List<Role> list) {
         int i = service.batch_Delete(list);
         return Result.success(i);

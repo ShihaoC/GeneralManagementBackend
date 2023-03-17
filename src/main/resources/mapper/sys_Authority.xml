@@ -12,6 +12,7 @@
                a.path,
                menable as `enable`,
                a.type  as type,
+               a.sindex as `sindex`,
                icon as icon
         FROM sys_authority a
                  INNER JOIN sys_role_connect b

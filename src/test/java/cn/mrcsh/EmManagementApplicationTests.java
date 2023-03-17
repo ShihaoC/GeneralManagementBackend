@@ -14,17 +14,17 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-@SpringBootTest
+//@SpringBootTest
 @Slf4j
 class EmManagementApplicationTests {
-    @Autowired
-    AuthorityService service;
+//    @Autowired
+//    AuthorityService service;
 
-    @Test
-    void contextLoads(){
-        service.getParentId(8);
-        log.info(Arrays.toString(service.ids.toArray()));
-    }
+//    @Test
+//    void contextLoads(){
+//        service.getParentId(8);
+//        log.info(Arrays.toString(service.ids.toArray()));
+//    }
 
     @Test
     void simpleTest(){

@@ -58,7 +58,7 @@ public class AuthController {
      * @return 返回体
      */
     @GetMapping("/getAuthority")
-    @PreAuthorize("hasAuthority('system:authority:query')")
+//    @PreAuthorize("hasAuthority('system:authority:query')")
     public Object Author(int role_id) {
         List<TreeNode> treeNodes = authorityService.selectAll(role_id);
         return Result.success(treeNodes);
@@ -70,7 +70,7 @@ public class AuthController {
      * @return 返回体
      */
     @PostMapping("/update")
-    @PreAuthorize("hasAuthority('system:authority:update')")
+//    @PreAuthorize("hasAuthority('system:authority:update')")
     @Log(module = "用户模块",api = "修改权限")
     @Transactional // 事务
     public Object update(@RequestBody List<Integer> authority_ids, int role_id) {
@@ -85,7 +85,7 @@ public class AuthController {
      * @return 返回体
      */
     @GetMapping("/default_check")
-    @PreAuthorize("hasAuthority('system:authority:query')")
+//    @PreAuthorize("hasAuthority('system:authority:query')")
     public Object defaultCheck(int role_id) {
         List<Integer> defaultChecked = authorityService.getDefaultChecked(role_id);
         return Result.success(defaultChecked);

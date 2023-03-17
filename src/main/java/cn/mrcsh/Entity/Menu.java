@@ -11,4 +11,5 @@ public class Menu {
     private String path;
     private boolean enable;
     private String icon;
+    private int sindex;
 }

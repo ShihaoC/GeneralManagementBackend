@@ -32,4 +32,7 @@ public class Authority {
     @TableField("Exclusions")
     private boolean Exclusions;
 
+    @TableField("sindex")
+    private int sindex;
+
 }
