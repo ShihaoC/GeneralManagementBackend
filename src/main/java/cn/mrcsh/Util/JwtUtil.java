@@ -1,11 +1,10 @@
 package cn.mrcsh.Util;
 
 
-import cn.mrcsh.Config.JwtConfig;
+import cn.mrcsh.Generate.Config.JwtConfig;
 import cn.mrcsh.Enum.ROLE;
 import io.jsonwebtoken.*;
 
-import javax.xml.crypto.Data;
 import java.util.Date;
 import java.util.UUID;
 

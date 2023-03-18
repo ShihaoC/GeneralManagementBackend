@@ -1,25 +1,46 @@
 package cn.mrcsh.Controller;
 
-import cn.mrcsh.Robot.DingTalk.DingTalkUtil;
-import com.taobao.api.ApiException;
-import lombok.SneakyThrows;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
+import cn.mrcsh.Entity.Notice;
+import cn.mrcsh.Entity.Result;
+import cn.mrcsh.Service.Impl.NoticeServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+/**
+ * 通知公告接口
+ */
 @RestController
-@RequestMapping("/v1/api/DingTalk")
+@RequestMapping("/Notice")
 public class NoticeController {
 
-    @GetMapping("/sendMessage")
-    @SneakyThrows
-    public String sendMessage(String context){
-        DingTalkUtil.DingTalkMessageBuilder builder = new DingTalkUtil.DingTalkMessageBuilder();
-        String body = builder
-                .initialization()
-                .setText(context)
-                .build()
-                .sendMessage();
-        return body;
+    @Autowired
+    NoticeServiceImpl service;
+
+
+    @PostMapping("/insert")
+    public Object  insert( Notice notice){
+        return Result.success(service.insert(notice));
     }
+
+    @GetMapping("/delete")
+    public Object delete(long id){
+         service.delete(id);
+         return Result.success("");
+    }
+
+
+    @GetMapping("/query")
+    public Object query(long id){
+        return Result.success(""+service.query(id));
+    }
+
+    @PostMapping("/update")
+    public Object update(Notice notice){
+        service.update(notice);
+        return Result.success("");
+    }
+
+
+
 }

@@ -1,4 +1,4 @@
-package cn.mrcsh.Config;
+package cn.mrcsh.Generate.Config;
 
 import com.baomidou.mybatisplus.annotation.DbType;
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
