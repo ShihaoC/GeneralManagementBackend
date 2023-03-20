@@ -10,6 +10,7 @@ import cn.mrcsh.Service.MenuService;
 import cn.mrcsh.Util.TreeUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -54,6 +55,7 @@ public class MenuController {
     }
 
     @PostMapping("/insert/{Exclusions}/{isAuthority}")
+    @PreAuthorize("hasAuthority('system:menu:insert')")
     public Object insert(@RequestBody Authority authority,@PathVariable boolean Exclusions, @PathVariable boolean isAuthority){
         log.info(authority.toString());
         if(authority.getLevel() == null){
@@ -75,6 +77,7 @@ public class MenuController {
 
     @GetMapping("/del/{id}")
     @Log(module = "菜单模块",api = "删除菜单")
+    @PreAuthorize("hasAuthority('system:menu:delete')")
     public Object delete(@PathVariable int id){
         int result = authorityService.delete(id);
         return Result.success(result);
@@ -82,6 +85,7 @@ public class MenuController {
 
     @PostMapping("/update/{Exclusions}/{isAuthority}")
     @Log(module = "菜单模块",api = "修改菜单")
+    @PreAuthorize("hasAuthority('system:menu:update')")
     public Object update(@RequestBody Authority authority,@PathVariable boolean Exclusions, @PathVariable boolean isAuthority){
         authority.setExclusions(Exclusions);
         if(isAuthority){

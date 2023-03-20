@@ -9,13 +9,11 @@ import cn.mrcsh.Service.Impl.AuthorityService;
 import cn.mrcsh.Service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
-import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.List;
 
@@ -58,7 +56,7 @@ public class AuthController {
      * @return 返回体
      */
     @GetMapping("/getAuthority")
-//    @PreAuthorize("hasAuthority('system:authority:query')")
+    @PreAuthorize("hasAuthority('system:authority:query')")
     public Object Author(int role_id) {
         List<TreeNode> treeNodes = authorityService.selectAll(role_id);
         return Result.success(treeNodes);
@@ -70,7 +68,7 @@ public class AuthController {
      * @return 返回体
      */
     @PostMapping("/update")
-//    @PreAuthorize("hasAuthority('system:authority:update')")
+    @PreAuthorize("hasAuthority('system:authority:update')")
     @Log(module = "用户模块",api = "修改权限")
     @Transactional // 事务
     public Object update(@RequestBody List<Integer> authority_ids, int role_id) {
@@ -85,7 +83,7 @@ public class AuthController {
      * @return 返回体
      */
     @GetMapping("/default_check")
-//    @PreAuthorize("hasAuthority('system:authority:query')")
+    @PreAuthorize("hasAuthority('system:authority:query')")
     public Object defaultCheck(int role_id) {
         List<Integer> defaultChecked = authorityService.getDefaultChecked(role_id);
         return Result.success(defaultChecked);

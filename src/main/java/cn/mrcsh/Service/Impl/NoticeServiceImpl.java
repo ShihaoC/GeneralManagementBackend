@@ -8,7 +8,9 @@ import lombok.val;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 /**
  * wangwensen
@@ -47,5 +49,18 @@ public class NoticeServiceImpl implements NoticeService {
     @Override
     public Object query(long id) {
         return JSON.parseObject(String.valueOf(redisUtil.get("notice:"+id)),Notice.class);
+    }
+
+    @Override
+    public List<Notice> queryAll() {
+        Set keys = redisUtil.keys("notice:*");
+
+        List<Notice> notices = new ArrayList<>();
+        for (Object key : keys) {
+            Notice notice = JSON.parseObject(String.valueOf(redisUtil.get(String.valueOf(key))), Notice.class);
+            notice.setTimeout(redisUtil.getExpire(String.valueOf(key)));
+            notices.add(notice);
+        }
+        return notices;
     }
 }

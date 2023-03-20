@@ -7,6 +7,7 @@ import cn.mrcsh.Entity.Result;
 import cn.mrcsh.Service.DepartmentService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.SimpleDateFormat;
@@ -31,6 +32,7 @@ public class DepartmentController {
      */
     @APIMonitor(value = "all_department", parentAPI = "dep")
     @GetMapping("/all_department")
+    @PreAuthorize("hasAuthority('system:department:query')")
     public Object deps() {
         return service.selectAll();
     }
@@ -43,6 +45,7 @@ public class DepartmentController {
      */
     @APIMonitor(value = "all_department_page", parentAPI = "dep")
     @GetMapping("/all_department_page")
+    @PreAuthorize("hasAuthority('system:department:query')")
     public Object dep(int page) {
         return service.selectList(page);
     }
@@ -56,17 +59,19 @@ public class DepartmentController {
      */
     @APIMonitor(value = "somedepartment", parentAPI = "dep")
     @GetMapping("/somedepartment")
+    @PreAuthorize("hasAuthority('system:department:query')")
     public Object selectLikeSomething(int page, String query) {
         return service.selectLikeSomething(page, query);
     }
 
     /**
-     * 删除岗位信息
+         * 删除岗位信息
      *
      * @return 通用返回体
      */
     @Log(module = "岗位模块",api = "删除岗位")
     @APIMonitor(value = "delete_department", parentAPI = "dep")
+    @PreAuthorize("hasAuthority('system:department:delete')")
     @GetMapping(value = "/delete_department")
     public Object deleteDepartment(int id) {
         return service.delete(id);
@@ -79,6 +84,7 @@ public class DepartmentController {
      * @return 通用返回体
      */
     @APIMonitor(value = "update_department", parentAPI = "dep")
+    @PreAuthorize("hasAuthority('system:department:update')")
     @PostMapping(value = "/update_department")
     @Log(module = "岗位模块",api = "修改岗位")
     public Object updateDepartment(@RequestBody Department department) {
@@ -94,6 +100,7 @@ public class DepartmentController {
     @APIMonitor(value = "insert_department", parentAPI = "dep")
     @PostMapping(value = "/insert_department")
     @Log(module = "岗位模块",api = "添加岗位")
+    @PreAuthorize("hasAuthority('system:department:insert')")
     public Object insertDepartment(@RequestBody Department department) {
         department.setDate(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
         return service.insert(department);
@@ -107,6 +114,7 @@ public class DepartmentController {
      */
     @APIMonitor(value = "batch_Delete", parentAPI = "dep")
     @PostMapping(value = "/batch_Delete")
+    @PreAuthorize("hasAuthority('system:department:delete')")
     @Log(module = "岗位模块",api = "批量删除岗位")
     public Object batch_delete(@RequestBody List<Department> departments) {
         int i = service.batch_Delete(departments);

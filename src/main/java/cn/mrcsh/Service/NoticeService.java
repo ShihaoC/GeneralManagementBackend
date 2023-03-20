@@ -12,11 +12,14 @@ import java.util.List;
 public interface NoticeService {
 
     boolean insert(Notice notice);
+
     void delete(long id);
+
     void update(Notice notice);
-    int updateStatue(int id,boolean statue);
+
+    int updateStatue(int id, boolean statue);
 
     Object query(long id);
 
-
+    List<Notice> queryAll();
 }
