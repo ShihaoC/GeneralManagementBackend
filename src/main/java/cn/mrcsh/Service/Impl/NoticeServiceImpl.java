@@ -11,6 +11,7 @@ import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * wangwensen
@@ -62,5 +63,12 @@ public class NoticeServiceImpl implements NoticeService {
             notices.add(notice);
         }
         return notices;
+    }
+
+    @Override
+    public boolean bench_delete(List<Notice> notices) {
+        List<Long> Notice_Ids = notices.stream().map(Notice::getId).collect(Collectors.toList());
+        Notice_Ids.forEach(id-> redisUtil.del("notice:"+id));
+        return true;
     }
 }

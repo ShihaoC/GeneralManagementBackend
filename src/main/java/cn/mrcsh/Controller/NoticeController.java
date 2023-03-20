@@ -8,6 +8,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.lang.reflect.Array;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -53,6 +55,13 @@ public class NoticeController {
     public Object getAllNotice(){
         List<Notice> notices = service.queryAll();
         return Result.success(notices);
+    }
+
+    @PostMapping("/bench_delete")
+    public Object Bench_Delete(@RequestBody List<Notice> notices){
+        log.info(Arrays.toString(notices.toArray()));
+        boolean flag = service.bench_delete(notices);
+        return Result.success(flag);
     }
 
 

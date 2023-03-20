@@ -22,4 +22,6 @@ public interface NoticeService {
     Object query(long id);
 
     List<Notice> queryAll();
+
+    boolean bench_delete(List<Notice> notices);
 }
