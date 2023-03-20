@@ -40,7 +40,12 @@ public class WeatherServiceImpl implements WeatherService {
         }
         IPPositioning ipPositioning = JSON.parseObject(location, IPPositioning.class);
         String[] split = ipPositioning.getRectangle().replaceAll("\\;", ",").split(",");
-        String local = split[0] + "," + split[3];
+        String local = null;
+        try {
+            local = split[0] + "," + split[3];
+        } catch (Exception e) {
+            local = "116.01,40.21";
+        }
         String weather = HttpUtil.get(String.format(APIConfig.qweatherURL_NOW, local));
         weather weather1 = JSON.parseObject(weather, weather.class);
         return weather1;
