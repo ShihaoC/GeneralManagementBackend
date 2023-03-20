@@ -42,7 +42,9 @@ public class NoticeController {
     }
 
     @PostMapping("/update")
-    public Object update(Notice notice) {
+    public Object update(@RequestBody Notice notice) {
+        log.info(notice.toString());
+        notice.setStatue(true);
         service.update(notice);
         return Result.success("");
     }

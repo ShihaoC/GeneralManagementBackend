@@ -73,6 +73,7 @@ public class UserServiceImpl implements UserService {
         if (user == null) {
            return Result.fail("表单内容为空");
         }
+        user.setUsed(true);
         QueryWrapper<User> wrapper = new QueryWrapper<>();
         wrapper.eq("username",user.getUsername());
 
