@@ -26,8 +26,8 @@ public class NoticeController {
 
     @PostMapping("/insert/{timeout}")
     public Object insert(@RequestBody Notice notice,@PathVariable Long timeout) {
-        log.info(notice.toString());
         notice.setTimeout(timeout);
+        log.info(notice.toString());
         return Result.success(service.insert(notice));
     }
 

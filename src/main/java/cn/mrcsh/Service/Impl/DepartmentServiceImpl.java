@@ -1,6 +1,5 @@
 package cn.mrcsh.Service.Impl;
 
-import cn.mrcsh.Code.ErrorCode;
 import cn.mrcsh.Entity.Department;
 import cn.mrcsh.Entity.Factory.PagesFactory;
 import cn.mrcsh.Entity.Result;

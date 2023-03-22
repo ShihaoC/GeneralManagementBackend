@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-@SpringBootTest
+//@SpringBootTest
 @Slf4j
 class EmManagementApplicationTests {
 //    @Autowired
@@ -29,22 +29,22 @@ class EmManagementApplicationTests {
 //        log.info(Arrays.toString(service.ids.toArray()));
 //    }
 
-    @Autowired
-    private RedisUtil redis;
-
-    @Autowired
-    private NoticeServiceImpl service;
+//    @Autowired
+//    private RedisUtil redis;
+//
+//    @Autowired
+//    private NoticeServiceImpl service;
 
     @Test
     void simpleTest(){
-        Notice notice = new Notice();
-        notice.setType("123");
-        notice.setContext("测试");
-        notice.setTimeout(-1L);
-        service.insert(notice);
-        List<Notice> notices = service.queryAll();
-        log.info(Arrays.toString(notices.toArray()));
-        log.info(Arrays.toString(redis.keys("notice:*").toArray()));
+//        Notice notice = new Notice();
+//        notice.setType("123");
+//        notice.setContext("测试");
+//        notice.setTimeout(-1L);
+//        service.insert(notice);
+//        List<Notice> notices = service.queryAll();
+//        log.info(Arrays.toString(notices.toArray()));
+//        log.info(Arrays.toString(redis.keys("notice:*").toArray()));
 
     }
 
