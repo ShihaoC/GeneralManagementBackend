@@ -31,7 +31,7 @@ public class WeatherServiceImpl implements WeatherService {
         if(ip.equals("127.0.0.1") || ip.equals("0:0:0:0:0:0:0:1") || ip.contains("172")){
             ip = null;
         }
-        log.warn(ip);
+//        log.warn(ip);
         String location = "";
         if (ip != null && !ip.equals("")) {
             location = HttpUtil.get(String.format(APIConfig.amapURL_IP, "&ip="+ip));
@@ -44,9 +44,12 @@ public class WeatherServiceImpl implements WeatherService {
         try {
             local = split[0] + "," + split[3];
         } catch (Exception e) {
+            // 获取经纬度异常 默认北京经纬度
             local = "116.01,40.21";
         }
+        // 根据经纬度获取天气
         String weather = HttpUtil.get(String.format(APIConfig.qweatherURL_NOW, local));
+        // 反序列化为Java Bean
         weather weather1 = JSON.parseObject(weather, weather.class);
         return weather1;
     }

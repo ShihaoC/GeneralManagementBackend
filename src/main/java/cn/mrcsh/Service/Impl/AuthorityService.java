@@ -52,7 +52,7 @@ public class AuthorityService {
      */
     public Result update(List<Integer> authority_ids, int role_id) {
         ids.clear();
-        log.info("authority_ids" + Arrays.toString(authority_ids.toArray()));
+//        log.info("authority_ids" + Arrays.toString(authority_ids.toArray()));
         roleConnectMapper.delete(new QueryWrapper<RoleConnect>().eq("role_id", role_id));
 
         for (Integer authorityId : authority_ids) {
@@ -61,7 +61,7 @@ public class AuthorityService {
                 getParentId(authorityId);
             }
         }
-        log.info(Arrays.toString(ids.toArray()));
+//        log.info(Arrays.toString(ids.toArray()));
 
         for (Integer integer : ids) {
             RoleConnect connect = new RoleConnect();
@@ -86,7 +86,7 @@ public class AuthorityService {
     public static void main(String[] args) {
         AuthorityService service = new AuthorityService();
         service.getParentId(8);
-        log.info(Arrays.toString(service.ids.toArray()));
+//        log.info(Arrays.toString(service.ids.toArray()));
     }
 
 
@@ -144,28 +144,28 @@ public class AuthorityService {
     public List<Integer> getDefaultChecked(int role_id) {
         List<Authority> authorities = selectList();
         List<Authority> authorities1 = selectAuth(role_id);
-        log.info(Arrays.toString(authorities.toArray()));
-        log.info(Arrays.toString(authorities1.toArray()));
+//        log.info(Arrays.toString(authorities.toArray()));
+//        log.info(Arrays.toString(authorities1.toArray()));
         for (Authority a : authorities1) {
-            log.info("1============================");
-            log.info(a.toString());
+//            log.info("1============================");
+//            log.info(a.toString());
             for (Authority a1 : authorities) {
-                log.info(a1.toString());
+//                log.info(a1.toString());
                 if (a.getName().equals(a1.getName())) {
                     a1.setEnable(true);
                     break;
                 }
             }
-            log.info("2============================");
+//            log.info("2============================");
         }
-        log.info(Arrays.toString(authorities.toArray()));
+//        log.info(Arrays.toString(authorities.toArray()));
         List<Integer> role_ids = new ArrayList<>();
         for (Authority authority : authorities) {
             if (authority.isEnable() && authority.getType().equals("2") || authority.isExclusions() && authority.isEnable()) {
                 role_ids.add(authority.getId());
             }
         }
-        log.info(Arrays.toString(role_ids.toArray()));
+//        log.info(Arrays.toString(role_ids.toArray()));
         return role_ids;
     }
 

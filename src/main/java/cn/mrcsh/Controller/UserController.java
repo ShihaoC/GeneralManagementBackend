@@ -33,7 +33,6 @@ public class UserController {
      * @param page   页数
      * @return <T>
      */
-
     @GetMapping("/user_query")
     @PreAuthorize("hasAuthority('system:user:query')")
     public Object user_query(String search, int page) {
@@ -94,6 +93,9 @@ public class UserController {
         return service.update_statue(id, statue);
     }
 
+    /**
+     * 导出用户信息
+     */
     @GetMapping("/user_export_excel")
     @PreAuthorize("hasAuthority('system:user:export')")
     @Log(module = "用户模块",api = "导出用户Excel")
@@ -101,6 +103,13 @@ public class UserController {
         service.export_excel(response);
     }
 
+    /**
+     * 修改用户头像
+     * @param file MultipartFile
+     * @param id 用户
+     * @return DTO
+     * @throws IOException
+     */
     @PostMapping("/uploadImage/{id}")
     public Result upload(MultipartFile file, @PathVariable int id) throws IOException {
         String OSSUrl = OSSUtil.uploadImage(file);
@@ -110,12 +119,22 @@ public class UserController {
         return service.update(simple);
     }
 
+    /**
+     * 获取用户头像
+     * @param id 用户id
+     * @return DTO
+     */
     @GetMapping("/headImage/{id}")
     public Result getHead(@PathVariable int id) {
         User simple = service.getSimple(id);
         return Result.success(simple.getImage_url());
     }
 
+    /**
+     * 批量删除用户
+     * @param users
+     * @return
+     */
     @PostMapping("/batch_Delete")
     @PreAuthorize("hasAuthority('system:user:delete')")
     @Log(module = "用户模块",api = "批量删除用户")
@@ -124,6 +143,11 @@ public class UserController {
         return Result.success(result);
     }
 
+    /**
+     * 获取用户by用户id
+     * @param id 用户id
+     * @return DTO
+     */
     @GetMapping("/username/{id}")
     public Result loadUserByUsername(@PathVariable int id){
         User simple = service.getSimple(id);

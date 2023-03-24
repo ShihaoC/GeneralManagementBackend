@@ -34,7 +34,7 @@ public class LogController {
     @GetMapping("/getLogs")
     @PreAuthorize("hasAuthority('system:log:query')")
     public Object getAllLogs(String module,int page){
-        log.info(String.valueOf(page));
+//        log.info(String.valueOf(page));
         Pages query = service.query(module, page);
         return Result.success(query);
     }

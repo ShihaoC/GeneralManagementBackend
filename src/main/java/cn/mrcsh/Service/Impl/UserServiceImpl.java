@@ -86,7 +86,7 @@ public class UserServiceImpl implements UserService {
         user.setRole("2");
         user.setImage_url("https://csh-test1.oss-cn-beijing.aliyuncs.com/user-fill.png");
         if(user.getDepartment() == null){
-            user.setDepartment("DEFAULT");
+            user.setDepartment("无");
         }
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         user.setNick_name("nick");

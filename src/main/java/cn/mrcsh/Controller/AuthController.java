@@ -72,7 +72,7 @@ public class AuthController {
     @Log(module = "用户模块",api = "修改权限")
     @Transactional // 事务
     public Object update(@RequestBody List<Integer> authority_ids, int role_id) {
-        log.info(Arrays.toString(authority_ids.toArray()));
+//        log.info(Arrays.toString(authority_ids.toArray()));
         return authorityService.update(authority_ids, role_id);
     }
 
@@ -88,13 +88,22 @@ public class AuthController {
         List<Integer> defaultChecked = authorityService.getDefaultChecked(role_id);
         return Result.success(defaultChecked);
     }
+
+    /**
+     * 修改密码
+     * @param user_id 用户id
+     * @param pass1 旧密码
+     * @param pass2 新密码
+     * @return
+     */
     @GetMapping("/updatePassword/{user_id}")
+    @Log(module = "用户模块",api = "修改密码")
     public Object updatePassword(@PathVariable String user_id,String pass1,String pass2){
         User simple = service.getSimple(Integer.parseInt(user_id));
         if(simple == null){
             return Result.fail("不存在此用户");
         }
-        if(!simple.getPassword().equals(bCryptPasswordEncoder.encode(pass1))){
+        if(!bCryptPasswordEncoder.matches(pass1,simple.getPassword())){
             return Result.fail("旧密码错误");
         }
         simple.setPassword(bCryptPasswordEncoder.encode(pass2));

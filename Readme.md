@@ -1,4 +1,5 @@
 # EmManage后端仓库
+[前端仓库](https://gitee.com/CUICUI233/employee-manage-view-open)
 ### 技术栈
 
 - SpringBoot
@@ -11,18 +12,12 @@
 
 - MySQL
 
-  ~~~markdown
-  user: sys_em
-  password: dkeujgjgb!2^@dTt
-  ~~~
-
 - Mybatis-Plus
 
 
 
-- [ ] 登陆注册 手机号验证 第三方登录
-- [ ] 报表 员工
-- [ ] 权限
-- [ ] 消息
-- [ ] 部门
-- [ ] 导入导出
+- [x] 登陆注册 手机号验证 第三方登录
+- [x] 权限
+- [x] 消息
+- [x] 部门
+- [x] 导入导出

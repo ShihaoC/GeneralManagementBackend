@@ -44,12 +44,12 @@ public class MessageEvent {
         }else if(args.length == 3){
             switch (args[0]){
                 case "bind":
-                    log.info(args[1]);
-                    log.info(args[2]);
+//                    log.info(args[1]);
+//                    log.info(args[2]);
                     break;
             }
         }else {
-            log.info(context);
+//            log.info(context);
         }
 
     }
@@ -57,7 +57,7 @@ public class MessageEvent {
     @Listener
     public void onGroupMessage(MiraiGroupMessageEvent event){
         String context = event.getMessageContent().getPlainText();
-        log.info(context);
+//        log.info(context);
     }
 
 }
