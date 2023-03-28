@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -119,5 +120,14 @@ public class DepartmentController {
     public Object batch_delete(@RequestBody List<Department> departments) {
         int i = service.batch_Delete(departments);
         return Result.success(i);
+    }
+
+    @APIMonitor(value = "export", parentAPI = "dep")
+    @GetMapping(value = "/export")
+    @PreAuthorize("hasAuthority('system:department:export')")
+    @Log(module = "岗位模块",api = "导出岗位信息")
+    public Object export(HttpServletResponse response){
+        service.export(response);
+        return Result.success("导出成功");
     }
 }

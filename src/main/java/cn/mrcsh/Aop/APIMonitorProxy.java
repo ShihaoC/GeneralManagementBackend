@@ -30,11 +30,14 @@ public class APIMonitorProxy {
         Object res;
         MethodSignature signature = (MethodSignature) point.getSignature();
         Method method = signature.getMethod();
+
         String api = method.getAnnotation(APIMonitor.class).api();
         String parentAPI = method.getAnnotation(APIMonitor.class).parentAPI();
+
         if(api.equals("login")){
             APIInvokeCount.AllLoginCount++;
         }
+
         res = point.proceed();
         APIInvoke(parentAPI, api);
         return res;

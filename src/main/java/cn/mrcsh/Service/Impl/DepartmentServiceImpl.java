@@ -5,12 +5,14 @@ import cn.mrcsh.Entity.Factory.PagesFactory;
 import cn.mrcsh.Entity.Result;
 import cn.mrcsh.Mapper.DepartmentMapper;
 import cn.mrcsh.Service.DepartmentService;
+import cn.mrcsh.Util.PoiUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -106,5 +108,10 @@ public class DepartmentServiceImpl implements DepartmentService {
     public int batch_Delete(List<Department> departments) {
         List<Integer> collect = departments.stream().map(Department::getId).collect(Collectors.toList());
         return mapper.deleteBatchIds(collect);
+    }
+
+    @Override
+    public void export(HttpServletResponse response) {
+        PoiUtil.export_Excel(response,mapper,Department.class);
     }
 }

@@ -1,6 +1,7 @@
 package cn.mrcsh.Controller;
 
 import cn.hutool.core.lang.tree.Tree;
+import cn.mrcsh.Annotations.APIMonitor;
 import cn.mrcsh.Annotations.Log;
 import cn.mrcsh.Entity.*;
 import cn.mrcsh.Mapper.AuthorityMapper;
@@ -49,7 +50,7 @@ public class MenuController {
      * @return DTO
      */
     @GetMapping("/allMenus")
-    public Object allMenus(){
+    @APIMonitor(value = "获取菜单", parentAPI = "menu")public Object allMenus(){
         List<Authority> authorities = mapper.selectList(null);
         List<TreeNode> list = new ArrayList<>();
         for (Authority authority : authorities) {
@@ -79,8 +80,9 @@ public class MenuController {
      */
     @PostMapping("/insert/{Exclusions}/{isAuthority}")
     @PreAuthorize("hasAuthority('system:menu:insert')")
+    @Log(api = "添加菜单",module = "菜单模块")
+    @APIMonitor(value = "insert", parentAPI = "menu")
     public Object insert(@RequestBody Authority authority,@PathVariable boolean Exclusions, @PathVariable boolean isAuthority){
-//        log.info(authority.toString());
         if(authority.getLevel() == null){
             authority.setLevel(0);
         }
@@ -89,13 +91,10 @@ public class MenuController {
         }else {
             authority.setType("1");
         }
-//        log.info(isAuthority+"");
         authority.setId(null);
         authority.setExclusions(Exclusions);
         int insert = authorityService.insert(authority);
         return Result.success(insert);
-//        log.info(authority.toString());
-//        return Result.success("");
     }
 
     /**
@@ -106,6 +105,7 @@ public class MenuController {
     @GetMapping("/del/{id}")
     @Log(module = "菜单模块",api = "删除菜单")
     @PreAuthorize("hasAuthority('system:menu:delete')")
+    @APIMonitor(value = "delete", parentAPI = "menu")
     public Object delete(@PathVariable int id){
         int result = authorityService.delete(id);
         return Result.success(result);
@@ -121,6 +121,7 @@ public class MenuController {
     @PostMapping("/update/{Exclusions}/{isAuthority}")
     @Log(module = "菜单模块",api = "修改菜单")
     @PreAuthorize("hasAuthority('system:menu:update')")
+    @APIMonitor(value = "update", parentAPI = "menu")
     public Object update(@RequestBody Authority authority,@PathVariable boolean Exclusions, @PathVariable boolean isAuthority){
         authority.setExclusions(Exclusions);
         if(isAuthority){
@@ -142,6 +143,7 @@ public class MenuController {
      * @return DTO
      */
     @GetMapping("/getAllMenu")
+    @APIMonitor(value = "query", parentAPI = "menu")
     public Result getAllMenu(){
         List<Authority> all = authorityService.getAll();
         return Result.success(all);

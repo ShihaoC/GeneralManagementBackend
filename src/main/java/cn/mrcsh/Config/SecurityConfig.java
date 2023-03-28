@@ -1,4 +1,4 @@
-package cn.mrcsh.Generate.Config;
+package cn.mrcsh.Config;
 
 import cn.mrcsh.Seurity.*;
 import org.springframework.beans.factory.annotation.Autowired;

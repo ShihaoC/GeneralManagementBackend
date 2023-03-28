@@ -83,13 +83,6 @@ public class AuthorityService {
         }
     }
 
-    public static void main(String[] args) {
-        AuthorityService service = new AuthorityService();
-        service.getParentId(8);
-//        log.info(Arrays.toString(service.ids.toArray()));
-    }
-
-
     /**
      * 获取树形结构
      *
