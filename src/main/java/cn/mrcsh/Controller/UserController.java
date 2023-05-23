@@ -25,6 +25,8 @@ import java.util.List;
 public class UserController {
     @Autowired
     private UserService service;
+    @Autowired
+    private OSSUtil OSSUtil;
 
     /**
      * 查询用户

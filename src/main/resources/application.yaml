@@ -9,11 +9,9 @@ spring:
       max-file-size: 8MB
       max-request-size: 8MB
   datasource:
-#    username: sys_em
-#    password: dkeujgjgb!2^@dTt
-#    url: jdbc:mysql://rm-2zeill7d837f111yi1o.mysql.rds.aliyuncs.com:3306/sys_em
     username: root
     password: 123456
+#    password: HmiiB6G3s2adwsTS
     url: jdbc:mysql://localhost:3306/sys_em
     driver-class-name: com.mysql.cj.jdbc.Driver
   security:
@@ -23,14 +21,19 @@ spring:
   redis:
     port: 6379
     host: localhost
+#    password: 123456
 logging:
   file:
     name: log/log.txt
   level:
-    cn.mrcsh.Mapper: info
-
-
+    cn.mrcsh.Mapper: debug
 mybatis-plus:
   configuration:
     map-underscore-to-camel-case: false
   mapper-locations: classpath:/mapper/*.xml
+
+oss:
+  alidomain:
+  endpoint:
+  accesskeyid:
+  accesskeysecret:

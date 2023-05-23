@@ -25,7 +25,6 @@ public class ReflectUtil {
                 consumer.accept(field);
             }
         });
-
     }
 
     /**
