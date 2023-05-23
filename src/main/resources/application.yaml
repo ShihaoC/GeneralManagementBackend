@@ -33,7 +33,7 @@ mybatis-plus:
   mapper-locations: classpath:/mapper/*.xml
 
 oss:
-  alidomain:
-  endpoint:
-  accesskeyid:
-  accesskeysecret:
+  alidomain: https://csh-test1.oss-cn-beijing.aliyuncs.com/
+  endpoint: http://oss-cn-beijing.aliyuncs.com
+  accesskeyid: LTAI5tSBckxE55TNAunCkNdv
+  accesskeysecret: 4VJ2wIDYecCd7VNolmiLb3F9rysQNy
